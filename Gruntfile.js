@@ -37,12 +37,16 @@ module.exports = function(grunt){
     },
     regarde: {
       livereload: {
-        files: ['app/**/*.html', 'app/**/*.js'],
+        files: ['app/**/*.html', 'app/**/*.css', 'app/**/*.js'],
         tasks: ['livereload']
       },
       compile: {
         files: ['**/*.coffee'],
         tasks: ['coffee']
+      },
+      sass: {
+        files: ['**/*.scss'],
+        tasks: ['sass']
       },
       test: {
         files: ['test/spec/*.js'],

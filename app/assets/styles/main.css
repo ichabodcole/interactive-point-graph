@@ -1,18 +1,15 @@
-body{
+body {
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
 
-canvas{
+canvas {
   position: absolute;
   margin-left: 50px;
-  margin-top:  50px;
+  margin-top: 50px;
   border: 1px solid lightgrey;
-  border-radius: 5px;
-}
+  border-radius: 5px; }
 
-.no-select{
+.no-select {
   user-select: none;
   -webkit-user-select: none;
-  -moz-user-select: -moz-none;
-}
+  -moz-user-select: -moz-none; }
