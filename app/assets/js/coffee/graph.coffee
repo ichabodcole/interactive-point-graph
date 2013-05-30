@@ -2,8 +2,6 @@ window.graph = graph ? {}
 class graph.Graph extends createjs.Container
   constructor: (width, height)->
     super
-    # createjs.EventDispatcher.initialize(@)
-    # @renderQueue = []
     @renderQueue = new graph.GraphRenderQueue()
 
     boundry_options = {line_color: "#ddd"}
@@ -18,10 +16,8 @@ class graph.Graph extends createjs.Container
     @addChild(@pointList)
 
     @setEventListeners()
-    # Right now boundry doesn't need to update on every change,
-    # but it will in the future when there is zooming functionality
-    @boundry.render()
-    @render()
+    # Add initial items to be rendered on instantiation
+    @renderQueue.add(@boundry, @pointList, @pointLine)
     return @
 
   setEventListeners: ->

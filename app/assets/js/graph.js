@@ -23,8 +23,7 @@
       this.addChild(this.pointLine);
       this.addChild(this.pointList);
       this.setEventListeners();
-      this.boundry.render();
-      this.render();
+      this.renderQueue.add(this.boundry, this.pointList, this.pointLine);
       return this;
     }
 
