@@ -15,7 +15,7 @@
       this.pointList = new graph.GraphPointList(graph.GraphPoint);
       this.setInitialPoints(width, height);
       this.pointLine = new graph.GraphPointLine(this.pointList.getPoints());
-      this.container.addChild(this.boundry.getContainer());
+      this.container.addChild(this.boundry);
       this.container.addChild(this.pointLine);
       this.container.addChild(this.pointList);
       this.setEventListeners();
@@ -24,7 +24,7 @@
     }
 
     Graph.prototype.setEventListeners = function() {
-      return this.boundry.getContainer().addEventListener('click', this.onBoundryClick.bind(this));
+      return this.boundry.addEventListener('click', this.onBoundryClick.bind(this));
     };
 
     Graph.prototype.onBoundryClick = function(e) {

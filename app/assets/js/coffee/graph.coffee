@@ -11,7 +11,7 @@ class graph.Graph
 
     @pointLine = new graph.GraphPointLine(@pointList.getPoints())
 
-    @container.addChild(@boundry.getContainer())
+    @container.addChild(@boundry)
     @container.addChild(@pointLine)
     @container.addChild(@pointList)
 
@@ -21,7 +21,7 @@ class graph.Graph
     return @
 
   setEventListeners: ->
-    @boundry.getContainer().addEventListener 'click', @onBoundryClick.bind(@)
+    @boundry.addEventListener 'click', @onBoundryClick.bind(@)
 
   onBoundryClick: (e)->
     @pointList.addPoint(e.stageX, e.stageY)
