@@ -1,13 +1,16 @@
 (function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
   window.graph = typeof graph !== "undefined" && graph !== null ? graph : {};
 
-  graph.Graph = (function() {
-    function Graph(context, width, height) {
+  graph.Graph = (function(_super) {
+    __extends(Graph, _super);
+
+    function Graph(width, height) {
       var boundry_options;
 
-      this.context = context;
-      createjs.EventDispatcher.initialize(this);
-      this.container = new createjs.Container();
+      Graph.__super__.constructor.apply(this, arguments);
       boundry_options = {
         line_color: "#ddd"
       };
@@ -15,11 +18,11 @@
       this.pointList = new graph.GraphPointList(graph.GraphPoint);
       this.setInitialPoints(width, height);
       this.pointLine = new graph.GraphPointLine(this.pointList.getPoints());
-      this.container.addChild(this.boundry);
-      this.container.addChild(this.pointLine);
-      this.container.addChild(this.pointList);
+      this.addChild(this.boundry);
+      this.addChild(this.pointLine);
+      this.addChild(this.pointList);
       this.setEventListeners();
-      this.draw();
+      this.boundry.render();
       return this;
     }
 
@@ -30,12 +33,8 @@
     Graph.prototype.onBoundryClick = function(e) {
       this.pointList.addPoint(e.stageX, e.stageY);
       this.pointLine.setPoints(this.pointList.getPoints());
-      this.draw();
+      this.render();
       return this.dispatchEvent('graphUpdate');
-    };
-
-    Graph.prototype.getContainer = function() {
-      return this.container;
     };
 
     Graph.prototype.setInitialPoints = function(width, height) {
@@ -50,13 +49,13 @@
       return this.pointList.addPoint(width, base_line, point_options);
     };
 
-    Graph.prototype.draw = function() {
+    Graph.prototype.render = function() {
       this.pointList.render();
       return this.pointLine.render();
     };
 
     return Graph;
 
-  })();
+  })(createjs.Container);
 
 }).call(this);

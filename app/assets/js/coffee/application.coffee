@@ -5,7 +5,7 @@ $ ()->
       @stage_width     = @stage.canvas.width
       @stage_height    = @stage.canvas.height
       @stage.autoClear = true
-      @graphView = new graph.Graph(@, @stage_width, @stage_height)
+      @graphView = new graph.Graph(@stage_width, @stage_height)
       @graphView.addEventListener('graphUpdate', @)
 
     handleEvent: (e)->
@@ -20,7 +20,8 @@ $ ()->
       console.log "render"
       @stage.removeAllChildren()
       @stage.clear()
-      @stage.addChild(@graphView.getContainer())
+      @stage.addChild(@graphView)
+      @graphView.render()
       @stage.update()
 
   AB = new AeatherBeats()

@@ -8,7 +8,7 @@
         this.stage_width = this.stage.canvas.width;
         this.stage_height = this.stage.canvas.height;
         this.stage.autoClear = true;
-        this.graphView = new graph.Graph(this, this.stage_width, this.stage_height);
+        this.graphView = new graph.Graph(this.stage_width, this.stage_height);
         this.graphView.addEventListener('graphUpdate', this);
       }
 
@@ -27,7 +27,8 @@
         console.log("render");
         this.stage.removeAllChildren();
         this.stage.clear();
-        this.stage.addChild(this.graphView.getContainer());
+        this.stage.addChild(this.graphView);
+        this.graphView.render();
         return this.stage.update();
       };
 

@@ -8,9 +8,6 @@ class graph.GraphBoundry extends createjs.Shape
     @horz_lines = @width  / @horz_spacing
     @vert_lines = @height / @vert_spacing
 
-    @createLines(@height, @horz_lines, @horz_spacing, 'horz', @line_options)
-    @createLines(@width, @vert_lines, @vert_spacing, 'vert', @line_options)
-
     hitArea = new createjs.Shape()
     hitArea.graphics.beginFill('red').drawRect(0, 0, @width, @height)
     @hitArea = hitArea
@@ -44,6 +41,11 @@ class graph.GraphBoundry extends createjs.Shape
 
   getValueAtPoint: (x, y)->
     return [x, y]
+
+  render: ->
+    @graphics.clear()
+    @createLines(@height, @horz_lines, @horz_spacing, 'horz', @line_options)
+    @createLines(@width, @vert_lines, @vert_spacing, 'vert', @line_options)
 
 # generic graph maker
 # context, width, height, value_pairs={}, line_options={}

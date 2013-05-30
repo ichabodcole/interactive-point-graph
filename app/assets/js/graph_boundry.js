@@ -18,8 +18,6 @@
       this.vert_spacing = 30;
       this.horz_lines = this.width / this.horz_spacing;
       this.vert_lines = this.height / this.vert_spacing;
-      this.createLines(this.height, this.horz_lines, this.horz_spacing, 'horz', this.line_options);
-      this.createLines(this.width, this.vert_lines, this.vert_spacing, 'vert', this.line_options);
       hitArea = new createjs.Shape();
       hitArea.graphics.beginFill('red').drawRect(0, 0, this.width, this.height);
       this.hitArea = hitArea;
@@ -61,6 +59,12 @@
 
     GraphBoundry.prototype.getValueAtPoint = function(x, y) {
       return [x, y];
+    };
+
+    GraphBoundry.prototype.render = function() {
+      this.graphics.clear();
+      this.createLines(this.height, this.horz_lines, this.horz_spacing, 'horz', this.line_options);
+      return this.createLines(this.width, this.vert_lines, this.vert_spacing, 'vert', this.line_options);
     };
 
     return GraphBoundry;
