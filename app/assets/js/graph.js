@@ -13,14 +13,13 @@
       };
       this.boundry = new graph.GraphBoundry(width, height, boundry_options);
       this.pointList = new graph.GraphPointList(graph.GraphPoint);
-      this.pointLine = new graph.GraphPointLine(this.pointList.getPoints());
       this.setInitialPoints(width, height);
-      this.pointList.draw();
-      this.pointLine.draw();
+      this.pointLine = new graph.GraphPointLine(this.pointList.getPoints());
       this.container.addChild(this.boundry.getContainer());
       this.container.addChild(this.pointLine.getContainer());
       this.container.addChild(this.pointList.getContainer());
       this.setEventListeners();
+      this.draw();
       return this;
     }
 
@@ -30,7 +29,9 @@
 
     Graph.prototype.onBoundryClick = function(e) {
       this.pointList.addPoint(e.stageX, e.stageY);
-      this.pointList.draw();
+      console.log(this.pointList.getPoints());
+      this.pointLine.setPoints(this.pointList.getPoints());
+      this.draw();
       return this.dispatchEvent('graphUpdate');
     };
 
@@ -50,7 +51,10 @@
       return this.pointList.addPoint(width, base_line, point_options);
     };
 
-    Graph.prototype.draw = function() {};
+    Graph.prototype.draw = function() {
+      this.pointList.draw();
+      return this.pointLine.draw();
+    };
 
     return Graph;
 

@@ -24,6 +24,7 @@
       };
 
       AeatherBeats.prototype.render = function() {
+        console.log("render");
         this.stage.removeAllChildren();
         this.stage.clear();
         this.stage.addChild(this.graphView.getContainer());

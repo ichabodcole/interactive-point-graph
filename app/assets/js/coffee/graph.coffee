@@ -7,19 +7,18 @@ class graph.Graph
     boundry_options = {line_color: "#ddd"}
     @boundry   = new graph.GraphBoundry(width, height, boundry_options)
     @pointList = new graph.GraphPointList(graph.GraphPoint)
-    @pointLine = new graph.GraphPointLine(@pointList.getPoints())
-
-    #set initial start and end points.
     @setInitialPoints(width, height)
-    @pointList.draw()
 
-    @pointLine.draw()
+    @pointLine = new graph.GraphPointLine(@pointList.getPoints())
 
     @container.addChild(@boundry.getContainer())
     @container.addChild(@pointLine.getContainer())
     @container.addChild(@pointList.getContainer())
 
+    #set initial start and end points.
     @setEventListeners()
+    @draw()
+
     return @
 
   setEventListeners: ->
@@ -27,8 +26,9 @@ class graph.Graph
 
   onBoundryClick: (e)->
     @pointList.addPoint(e.stageX, e.stageY)
-    @pointList.draw()
-    # @pointLine.draw()
+    console.log @pointList.getPoints()
+    @pointLine.setPoints(@pointList.getPoints())
+    @draw()
     @.dispatchEvent('graphUpdate')
 
   getContainer: ->
@@ -41,3 +41,5 @@ class graph.Graph
     @pointList.addPoint(width, base_line, point_options)
 
   draw: ->
+    @pointList.draw()
+    @pointLine.draw()

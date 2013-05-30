@@ -5,20 +5,21 @@
     function GraphPointLine(points, line_options) {
       var _ref, _ref1;
 
-      this.points = points;
+      this.points = points != null ? points : [];
       this.line_options = line_options != null ? line_options : {};
       this.pointLine = new createjs.Graphics();
       this.pointLineShape = new createjs.Shape();
-      this.line_thickness = (_ref = this.line_options.line_thickness) != null ? _ref : 1;
+      this.line_weight = (_ref = this.line_options.line_weight) != null ? _ref : 1;
       this.line_color = (_ref1 = this.line_options.line_color) != null ? _ref1 : '#000';
-      this.pointLine.setStrokeStyle(this.line_thickness);
-      this.pointLine.beginStroke(this.line_color);
       return this;
     }
 
     GraphPointLine.prototype.draw = function() {
       var index, point, _i, _len, _ref;
 
+      this.pointLine.clear();
+      this.pointLine.setStrokeStyle(this.line_weight);
+      this.pointLine.beginStroke(this.line_color);
       _ref = this.points;
       for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
         point = _ref[index];
@@ -37,6 +38,14 @@
 
     GraphPointLine.prototype.getContainer = function() {
       return this.pointLineShape;
+    };
+
+    GraphPointLine.prototype.setLineColor = function(color) {
+      return this.line_color = color;
+    };
+
+    GraphPointLine.prototype.setLineThickness = function(weight) {
+      return this.line_weight = weight;
     };
 
     return GraphPointLine;

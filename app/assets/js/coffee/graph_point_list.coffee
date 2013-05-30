@@ -9,6 +9,8 @@ class graph.GraphPointList
     point = new @GraphPoint(x, y, point_options)
     @setEventListeners(point)
     @points.push(point)
+    @sortPoints()
+    @adjustPointLineEnds()
 
   setEventListeners: (point)->
     point.addEventListener 'mousedown', (e)->
@@ -31,10 +33,11 @@ class graph.GraphPointList
         return Math.min(point.x)
 
   adjustPointLineEnds: ->
-    @points[0].y = @points[1].y
+    if @points.length > 2
+      @points[0].y = @points[1].y
 
-    last_point = @points.length - 1
-    @points[last_point].y = @points[last_point - 1].y
+      last_point = @points.length - 1
+      @points[last_point].y = @points[last_point - 1].y
 
   draw: ->
     for point in @points

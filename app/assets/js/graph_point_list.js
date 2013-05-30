@@ -16,7 +16,9 @@
       }
       point = new this.GraphPoint(x, y, point_options);
       this.setEventListeners(point);
-      return this.points.push(point);
+      this.points.push(point);
+      this.sortPoints();
+      return this.adjustPointLineEnds();
     };
 
     GraphPointList.prototype.setEventListeners = function(point) {
@@ -45,9 +47,11 @@
     GraphPointList.prototype.adjustPointLineEnds = function() {
       var last_point;
 
-      this.points[0].y = this.points[1].y;
-      last_point = this.points.length - 1;
-      return this.points[last_point].y = this.points[last_point - 1].y;
+      if (this.points.length > 2) {
+        this.points[0].y = this.points[1].y;
+        last_point = this.points.length - 1;
+        return this.points[last_point].y = this.points[last_point - 1].y;
+      }
     };
 
     GraphPointList.prototype.draw = function() {

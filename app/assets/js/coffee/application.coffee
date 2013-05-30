@@ -17,13 +17,10 @@ $ ()->
       @render()
 
     render: ->
+      console.log "render"
       @stage.removeAllChildren()
       @stage.clear()
-
       @stage.addChild(@graphView.getContainer())
-
-      # drawPointLine(stage_width, stage_height, points)
-      # drawPoints()
       @stage.update()
 
   AB = new AeatherBeats()
