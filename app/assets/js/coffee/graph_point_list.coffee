@@ -13,17 +13,20 @@ class graph.GraphPointList extends createjs.Container
     @adjustPointLineEnds()
 
   setEventListeners: (point)->
+    _self = @
     point.addEventListener 'mousedown', (e)->
-      e.addEventListener 'mousemove', (e)->
-        e.target.x = e.stageX
-        e.target.y = e.stageY
-        e.dispatchEvent('pointMove')
+      e.addEventListener 'mousemove', _self.onPointMove.bind(_self)
 
     point.addEventListener 'click', (e)->
-      # console.log e
+      e.dispatchEvent('pointEdit')
 
     point.addEventListener 'dbclick', (e)->
-      # console.log e
+      e.dispatchEvent('pointRemove')
+
+  onPointMove: (e)->
+    @sortPoints()
+    @adjustPointLineEnds()
+    @dispatchEvent('pointMove', e.target)
 
   removePoint: (pid)->
     @points = _.reject @points, (point)->

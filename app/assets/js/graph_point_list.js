@@ -27,15 +27,24 @@
     };
 
     GraphPointList.prototype.setEventListeners = function(point) {
+      var _self;
+
+      _self = this;
       point.addEventListener('mousedown', function(e) {
-        return e.addEventListener('mousemove', function(e) {
-          e.target.x = e.stageX;
-          e.target.y = e.stageY;
-          return e.dispatchEvent('pointMove');
-        });
+        return e.addEventListener('mousemove', _self.onPointMove.bind(_self));
       });
-      point.addEventListener('click', function(e) {});
-      return point.addEventListener('dbclick', function(e) {});
+      point.addEventListener('click', function(e) {
+        return e.dispatchEvent('pointEdit');
+      });
+      return point.addEventListener('dbclick', function(e) {
+        return e.dispatchEvent('pointRemove');
+      });
+    };
+
+    GraphPointList.prototype.onPointMove = function(e) {
+      this.sortPoints();
+      this.adjustPointLineEnds();
+      return this.dispatchEvent('pointMove', e.target);
     };
 
     GraphPointList.prototype.removePoint = function(pid) {

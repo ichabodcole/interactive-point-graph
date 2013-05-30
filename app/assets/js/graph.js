@@ -28,13 +28,14 @@
     }
 
     Graph.prototype.setEventListeners = function() {
-      return this.boundry.addEventListener('click', this.onBoundryClick.bind(this));
+      this.boundry.addEventListener('click', this.onBoundryClick.bind(this));
+      return this.pointList.addEventListener('pointMove', this.onPointUpdate.bind(this));
     };
 
     Graph.prototype.onPointUpdate = function(e) {
       this.pointLine.setPoints(this.pointList.getPoints());
       this.renderQueue.add(this.pointList, this.pointLine);
-      return e.dispatchEvent('graphUpdate');
+      return this.dispatchEvent('graphUpdate');
     };
 
     Graph.prototype.onBoundryClick = function(e) {
