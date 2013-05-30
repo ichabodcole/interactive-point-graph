@@ -30,7 +30,8 @@
       point.addEventListener('mousedown', function(e) {
         return e.addEventListener('mousemove', function(e) {
           e.target.x = e.stageX;
-          return e.target.y = e.stageY;
+          e.target.y = e.stageY;
+          return e.dispatchEvent('pointMove');
         });
       });
       point.addEventListener('click', function(e) {});

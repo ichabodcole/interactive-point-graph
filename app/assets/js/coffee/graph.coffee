@@ -3,6 +3,8 @@ class graph.Graph extends createjs.Container
   constructor: (width, height)->
     super
     # createjs.EventDispatcher.initialize(@)
+    # @renderQueue = []
+    @renderQueue = new graph.GraphRenderQueue()
 
     boundry_options = {line_color: "#ddd"}
     @boundry   = new graph.GraphBoundry(width, height, boundry_options)
@@ -19,15 +21,21 @@ class graph.Graph extends createjs.Container
     # Right now boundry doesn't need to update on every change,
     # but it will in the future when there is zooming functionality
     @boundry.render()
+    @render()
     return @
 
   setEventListeners: ->
     @boundry.addEventListener 'click', @onBoundryClick.bind(@)
 
+  onPointUpdate: (e)->
+    @pointLine.setPoints(@pointList.getPoints())
+    @renderQueue.add(@pointList, @pointLine)
+    e.dispatchEvent('graphUpdate')
+
   onBoundryClick: (e)->
     @pointList.addPoint(e.stageX, e.stageY)
     @pointLine.setPoints(@pointList.getPoints())
-    @render()
+    @renderQueue.add(@pointList, @pointLine)
     @dispatchEvent('graphUpdate')
 
   setInitialPoints: (width, height)->
@@ -37,5 +45,7 @@ class graph.Graph extends createjs.Container
     @pointList.addPoint(width, base_line, point_options)
 
   render: ->
-    @pointList.render()
-    @pointLine.render()
+    @renderQueue.render()
+    @renderQueue.clear()
+
+

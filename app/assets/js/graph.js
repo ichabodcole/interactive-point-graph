@@ -11,6 +11,7 @@
       var boundry_options;
 
       Graph.__super__.constructor.apply(this, arguments);
+      this.renderQueue = new graph.GraphRenderQueue();
       boundry_options = {
         line_color: "#ddd"
       };
@@ -23,6 +24,7 @@
       this.addChild(this.pointList);
       this.setEventListeners();
       this.boundry.render();
+      this.render();
       return this;
     }
 
@@ -30,10 +32,16 @@
       return this.boundry.addEventListener('click', this.onBoundryClick.bind(this));
     };
 
+    Graph.prototype.onPointUpdate = function(e) {
+      this.pointLine.setPoints(this.pointList.getPoints());
+      this.renderQueue.add(this.pointList, this.pointLine);
+      return e.dispatchEvent('graphUpdate');
+    };
+
     Graph.prototype.onBoundryClick = function(e) {
       this.pointList.addPoint(e.stageX, e.stageY);
       this.pointLine.setPoints(this.pointList.getPoints());
-      this.render();
+      this.renderQueue.add(this.pointList, this.pointLine);
       return this.dispatchEvent('graphUpdate');
     };
 
@@ -50,8 +58,8 @@
     };
 
     Graph.prototype.render = function() {
-      this.pointList.render();
-      return this.pointLine.render();
+      this.renderQueue.render();
+      return this.renderQueue.clear();
     };
 
     return Graph;

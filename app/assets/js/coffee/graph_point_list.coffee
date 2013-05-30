@@ -17,6 +17,7 @@ class graph.GraphPointList extends createjs.Container
       e.addEventListener 'mousemove', (e)->
         e.target.x = e.stageX
         e.target.y = e.stageY
+        e.dispatchEvent('pointMove')
 
     point.addEventListener 'click', (e)->
       # console.log e
