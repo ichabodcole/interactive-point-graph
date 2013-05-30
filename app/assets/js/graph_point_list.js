@@ -31,28 +31,29 @@
 
       _self = this;
       point.addEventListener('mousedown', function(e) {
-        return e.addEventListener('mousemove', _self.onPointMove.bind(_self));
+        return e.addEventListener('mousemove', _self.movePoint.bind(_self));
       });
-      point.addEventListener('click', function(e) {
-        return e.dispatchEvent('pointEdit');
-      });
-      return point.addEventListener('dbclick', function(e) {
-        return e.dispatchEvent('pointRemove');
-      });
+      return point.addEventListener('dblclick', _self.removePoint.bind(_self));
     };
 
-    GraphPointList.prototype.onPointMove = function(e) {
+    GraphPointList.prototype.movePoint = function(e) {
       e.target.x = e.stageX;
       e.target.y = e.stageY;
-      this.sortPoints();
-      this.adjustPointLineEnds();
+      this.updatePoints();
       return this.dispatchEvent('pointMove', e.target);
     };
 
-    GraphPointList.prototype.removePoint = function(pid) {
-      return this.points = _.reject(this.points, function(point) {
-        return point.id === pid;
+    GraphPointList.prototype.editPoint = function(e) {
+      return console.log("point click");
+    };
+
+    GraphPointList.prototype.removePoint = function(e) {
+      this.removeChild(e.target);
+      this.points = _.reject(this.points, function(point) {
+        return point.id === e.target.id;
       });
+      this.updatePoints();
+      return this.dispatchEvent('pointRemove', e.target);
     };
 
     GraphPointList.prototype.sortPoints = function() {
@@ -69,6 +70,11 @@
         last_point = this.points.length - 1;
         return this.points[last_point].y = this.points[last_point - 1].y;
       }
+    };
+
+    GraphPointList.prototype.updatePoints = function() {
+      this.sortPoints();
+      return this.adjustPointLineEnds();
     };
 
     GraphPointList.prototype.render = function() {

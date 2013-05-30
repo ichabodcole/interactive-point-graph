@@ -9,7 +9,7 @@ $ ()->
       @graphView.addEventListener('graphUpdate', @)
 
     handleEvent: (e)->
-      console.log e.type
+      # console.log e.type
       if e.type == 'graphUpdate'
         @onGraphUpdate()
 
@@ -17,7 +17,7 @@ $ ()->
       @render()
 
     render: ->
-      console.log "render"
+      # console.log "render"
       @stage.removeAllChildren()
       @stage.clear()
       @stage.addChild(@graphView)

@@ -15,24 +15,25 @@ class graph.GraphPointList extends createjs.Container
   setEventListeners: (point)->
     _self = @
     point.addEventListener 'mousedown', (e)->
-      e.addEventListener 'mousemove', _self.onPointMove.bind(_self)
+      e.addEventListener 'mousemove', _self.movePoint.bind(_self)
+    # point.addEventListener 'click', _self.editPoint.bind(_self)
+    point.addEventListener 'dblclick', _self.removePoint.bind(_self)
 
-    point.addEventListener 'click', (e)->
-      e.dispatchEvent('pointEdit')
-
-    point.addEventListener 'dbclick', (e)->
-      e.dispatchEvent('pointRemove')
-
-  onPointMove: (e)->
+  movePoint: (e)->
     e.target.x = e.stageX
     e.target.y = e.stageY
-    @sortPoints()
-    @adjustPointLineEnds()
+    @updatePoints()
     @dispatchEvent('pointMove', e.target)
 
-  removePoint: (pid)->
+  editPoint: (e)->
+    console.log "point click"
+
+  removePoint: (e)->
+    @removeChild(e.target)
     @points = _.reject @points, (point)->
-        return point.id == pid
+        return point.id == e.target.id
+    @updatePoints()
+    @dispatchEvent('pointRemove', e.target)
 
   sortPoints: ->
     @points = _.sortBy @points, (point)->
@@ -44,6 +45,10 @@ class graph.GraphPointList extends createjs.Container
 
       last_point = @points.length - 1
       @points[last_point].y = @points[last_point - 1].y
+
+  updatePoints: ->
+    @sortPoints()
+    @adjustPointLineEnds()
 
   render: ->
     for point in @points

@@ -13,7 +13,6 @@
       }
 
       AeatherBeats.prototype.handleEvent = function(e) {
-        console.log(e.type);
         if (e.type === 'graphUpdate') {
           return this.onGraphUpdate();
         }
@@ -24,7 +23,6 @@
       };
 
       AeatherBeats.prototype.render = function() {
-        console.log("render");
         this.stage.removeAllChildren();
         this.stage.clear();
         this.stage.addChild(this.graphView);
