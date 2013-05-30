@@ -16,7 +16,7 @@ class graph.GraphPointList extends createjs.Container
     _self = @
     point.addEventListener 'mousedown', (e)->
       e.addEventListener 'mousemove', _self.movePoint.bind(_self)
-    # point.addEventListener 'click', _self.editPoint.bind(_self)
+
     point.addEventListener 'dblclick', _self.removePoint.bind(_self)
 
   movePoint: (e)->
@@ -24,9 +24,6 @@ class graph.GraphPointList extends createjs.Container
     e.target.y = e.stageY
     @updatePoints()
     @dispatchEvent('pointMove', e.target)
-
-  editPoint: (e)->
-    console.log "point click"
 
   removePoint: (e)->
     @removeChild(e.target)

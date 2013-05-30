@@ -43,10 +43,6 @@
       return this.dispatchEvent('pointMove', e.target);
     };
 
-    GraphPointList.prototype.editPoint = function(e) {
-      return console.log("point click");
-    };
-
     GraphPointList.prototype.removePoint = function(e) {
       this.removeChild(e.target);
       this.points = _.reject(this.points, function(point) {
