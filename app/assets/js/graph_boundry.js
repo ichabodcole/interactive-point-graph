@@ -1,11 +1,9 @@
 (function() {
-  var graph;
+  window.graph = typeof graph !== "undefined" && graph !== null ? graph : {};
 
-  graph = graph != null ? graph : {};
-
-  graph.Graph = (function() {
-    function Graph(width, height, line_options) {
-      var graph_shape;
+  graph.GraphBoundry = (function() {
+    function GraphBoundry(width, height, line_options) {
+      var hitArea;
 
       this.width = width;
       this.height = height;
@@ -15,13 +13,16 @@
       this.vert_spacing = 30;
       this.horz_lines = this.width / this.horz_spacing;
       this.vert_lines = this.height / this.vert_spacing;
-      createLines(this.graph, this.height, this.horz_lines, this.horz_spacing, 'horz', line_options);
-      createLines(this.graph, this.width, this.vert_lines, this.vert_spacing, 'vert', line_options);
-      graph_shape = new createjs.Shape(this.graph);
-      return graph_shape;
+      this.createLines(this.graph, this.height, this.horz_lines, this.horz_spacing, 'horz', this.line_options);
+      this.createLines(this.graph, this.width, this.vert_lines, this.vert_spacing, 'vert', this.line_options);
+      this.graphShape = new createjs.Shape(this.graph);
+      hitArea = new createjs.Shape();
+      hitArea.graphics.beginFill('red').drawRect(0, 0, this.width, this.height);
+      this.graphShape.hitArea = hitArea;
+      return this;
     }
 
-    Graph.prototype.createLines = function(context, size, num_lines, line_spacing, direction, line_options) {
+    GraphBoundry.prototype.createLines = function(context, size, num_lines, line_spacing, direction, line_options) {
       var end_x, end_y, increment, line, line_color, line_offset, line_thickness, start_x, start_y, _i, _ref, _ref1, _results;
 
       if (line_options == null) {
@@ -54,7 +55,15 @@
       return _results;
     };
 
-    return Graph;
+    GraphBoundry.prototype.getValueAtPoint = function(x, y) {
+      return [x, y];
+    };
+
+    GraphBoundry.prototype.getContainer = function() {
+      return this.graphShape;
+    };
+
+    return GraphBoundry;
 
   })();
 

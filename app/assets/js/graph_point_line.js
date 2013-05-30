@@ -1,36 +1,42 @@
 (function() {
-  var graph;
-
-  graph = graph != null ? graph : {};
+  window.graph = typeof graph !== "undefined" && graph !== null ? graph : {};
 
   graph.GraphPointLine = (function() {
-    var drawPointLine;
+    function GraphPointLine(points, line_options) {
+      var _ref, _ref1;
 
-    function GraphPointLine() {}
+      this.points = points;
+      this.line_options = line_options != null ? line_options : {};
+      this.pointLine = new createjs.Graphics();
+      this.pointLineShape = new createjs.Shape();
+      this.line_thickness = (_ref = this.line_options.line_thickness) != null ? _ref : 1;
+      this.line_color = (_ref1 = this.line_options.line_color) != null ? _ref1 : '#000';
+      this.pointLine.setStrokeStyle(this.line_thickness);
+      this.pointLine.beginStroke(this.line_color);
+      return this;
+    }
 
-    drawPointLine = function(width, height, points, line_options) {
-      var index, line_color, line_thickness, point, pointLine, pointLineShape, _i, _len, _ref, _ref1;
+    GraphPointLine.prototype.draw = function() {
+      var index, point, _i, _len, _ref;
 
-      if (line_options == null) {
-        line_options = {};
-      }
-      sortPoints();
-      adjustPointLineEnds();
-      pointLine = new createjs.Graphics();
-      line_thickness = (_ref = line_options.line_thickness) != null ? _ref : 1;
-      line_color = (_ref1 = line_options.line_color) != null ? _ref1 : '#000';
-      pointLine.setStrokeStyle(line_thickness);
-      pointLine.beginStroke(line_color);
-      for (index = _i = 0, _len = points.length; _i < _len; index = ++_i) {
-        point = points[index];
+      _ref = this.points;
+      for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+        point = _ref[index];
         if (index === 0) {
-          pointLine.moveTo(point.x, point.y);
+          this.pointLine.moveTo(point.x, point.y);
         } else {
-          pointLine.lineTo(point.x, point.y);
+          this.pointLine.lineTo(point.x, point.y);
         }
       }
-      pointLineShape = new createjs.Shape(pointLine);
-      return stage.addChild(pointLineShape);
+      return this.pointLineShape.graphics = this.pointLine;
+    };
+
+    GraphPointLine.prototype.setPoints = function(points) {
+      return this.points = points;
+    };
+
+    GraphPointLine.prototype.getContainer = function() {
+      return this.pointLineShape;
     };
 
     return GraphPointLine;

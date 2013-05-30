@@ -1,23 +1,30 @@
-graph = graph ? {}
+window.graph = graph ? {}
 class graph.GraphPointLine
-  constructor: ->
+  constructor: (@points, @line_options={})->
+    @pointLine = new createjs.Graphics()
+    @pointLineShape = new createjs.Shape()
 
-  drawPointLine = (width, height, points, line_options={})->
-    sortPoints()
-    adjustPointLineEnds()
-    pointLine = new createjs.Graphics()
+    @line_thickness = @line_options.line_thickness ? 1
+    @line_color     = @line_options.line_color ? '#000'
 
-    line_thickness = line_options.line_thickness ? 1
-    line_color     = line_options.line_color ? '#000'
+    @pointLine.setStrokeStyle(@line_thickness)
+    @pointLine.beginStroke(@line_color)
+
+    return @
+
+  draw: ->
+    # sortPoints()
+    # adjustPointLineEnds()
     # line_offset = if line_thickness % 2 == 1 then 0.5 else 0
-    pointLine.setStrokeStyle(line_thickness)
-    pointLine.beginStroke(line_color)
-
-    for point, index in points
+    for point, index in @points
       if index == 0
-        pointLine.moveTo(point.x, point.y)
+        @pointLine.moveTo(point.x, point.y)
       else
-        pointLine.lineTo(point.x, point.y)
+        @pointLine.lineTo(point.x, point.y)
+    @pointLineShape.graphics = @pointLine
 
-    pointLineShape = new createjs.Shape(pointLine)
-    stage.addChild(pointLineShape)
+  setPoints: (points)->
+    @points = points
+
+  getContainer: ->
+    return @pointLineShape

@@ -1,5 +1,5 @@
-graph = graph ? {}
-class graph.Graph
+window.graph = graph ? {}
+class graph.GraphBoundry
   constructor: (@width, @height, @line_options={})->
     @graph = new createjs.Graphics()
     @horz_spacing = 100
@@ -8,13 +8,16 @@ class graph.Graph
     @horz_lines = @width  / @horz_spacing
     @vert_lines = @height / @vert_spacing
 
-    # @graph.beginFill("#fff").drawRect(0, 0, @width, @height)
+    @createLines(@graph, @height, @horz_lines, @horz_spacing, 'horz', @line_options)
+    @createLines(@graph, @width, @vert_lines, @vert_spacing, 'vert', @line_options)
 
-    createLines(@graph, @height, @horz_lines, @horz_spacing, 'horz', line_options)
-    createLines(@graph, @width, @vert_lines, @vert_spacing, 'vert', line_options)
+    @graphShape = new createjs.Shape(@graph)
 
-    graph_shape = new createjs.Shape(@graph)
-    return graph_shape
+    hitArea = new createjs.Shape()
+    hitArea.graphics.beginFill('red').drawRect(0, 0, @width, @height)
+    @graphShape.hitArea = hitArea
+
+    return @
 
   createLines: (context, size, num_lines, line_spacing, direction, line_options={})->
     line_thickness = line_options.line_thickness ? 1
@@ -41,6 +44,12 @@ class graph.Graph
 
         context.moveTo(start_x, start_y)
         context.lineTo(end_x, end_y)
+
+  getValueAtPoint: (x, y)->
+    return [x, y]
+
+  getContainer: ->
+    return @graphShape
 
 # generic graph maker
 # context, width, height, value_pairs={}, line_options={}
