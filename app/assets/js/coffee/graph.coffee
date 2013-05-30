@@ -13,7 +13,7 @@ class graph.Graph
 
     @container.addChild(@boundry.getContainer())
     @container.addChild(@pointLine)
-    @container.addChild(@pointList.getContainer())
+    @container.addChild(@pointList)
 
     #set initial start and end points.
     @setEventListeners()
@@ -39,5 +39,5 @@ class graph.Graph
     @pointList.addPoint(width, base_line, point_options)
 
   draw: ->
-    @pointList.draw()
+    @pointList.render()
     @pointLine.render()

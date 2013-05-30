@@ -1,9 +1,14 @@
 (function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
   window.graph = typeof graph !== "undefined" && graph !== null ? graph : {};
 
-  graph.GraphPointList = (function() {
+  graph.GraphPointList = (function(_super) {
+    __extends(GraphPointList, _super);
+
     function GraphPointList(graphPointClass) {
-      this.container = new createjs.Container();
+      GraphPointList.__super__.constructor.apply(this, arguments);
       this.points = [];
       this.GraphPoint = graphPointClass;
     }
@@ -54,20 +59,16 @@
       }
     };
 
-    GraphPointList.prototype.draw = function() {
+    GraphPointList.prototype.render = function() {
       var point, _i, _len, _ref, _results;
 
       _ref = this.points;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         point = _ref[_i];
-        _results.push(this.container.addChild(point));
+        _results.push(this.addChild(point));
       }
       return _results;
-    };
-
-    GraphPointList.prototype.getContainer = function() {
-      return this.container;
     };
 
     GraphPointList.prototype.getPoints = function() {
@@ -76,6 +77,6 @@
 
     return GraphPointList;
 
-  })();
+  })(createjs.Container);
 
 }).call(this);

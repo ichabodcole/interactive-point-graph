@@ -17,7 +17,7 @@
       this.pointLine = new graph.GraphPointLine(this.pointList.getPoints());
       this.container.addChild(this.boundry.getContainer());
       this.container.addChild(this.pointLine);
-      this.container.addChild(this.pointList.getContainer());
+      this.container.addChild(this.pointList);
       this.setEventListeners();
       this.draw();
       return this;
@@ -51,7 +51,7 @@
     };
 
     Graph.prototype.draw = function() {
-      this.pointList.draw();
+      this.pointList.render();
       return this.pointLine.render();
     };
 

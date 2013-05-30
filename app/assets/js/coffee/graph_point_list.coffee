@@ -1,7 +1,7 @@
 window.graph = graph ? {}
-class graph.GraphPointList
+class graph.GraphPointList extends createjs.Container
   constructor: (graphPointClass)->
-    @container = new createjs.Container()
+    super
     @points = []
     @GraphPoint = graphPointClass
 
@@ -39,12 +39,9 @@ class graph.GraphPointList
       last_point = @points.length - 1
       @points[last_point].y = @points[last_point - 1].y
 
-  draw: ->
+  render: ->
     for point in @points
-      @container.addChild(point)
-
-  getContainer: ->
-    @container
+      @addChild(point)
 
   getPoints: ->
     return @points

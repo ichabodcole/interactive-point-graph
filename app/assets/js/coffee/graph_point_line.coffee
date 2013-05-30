@@ -7,7 +7,11 @@ class graph.GraphPointLine extends createjs.Shape
     return @
 
   render: ->
+    # need to clear the graphics object or previous render will
+    # still be showing.
     @graphics.clear()
+    # Must set up the strokeStyle and beginStroke after clearing the graphics object
+    # because they are set set too.
     @graphics.setStrokeStyle(@line_weight)
     @graphics.beginStroke(@line_color)
 
