@@ -9,7 +9,7 @@ class graph.Graph extends createjs.Container
     @pointList = new graph.GraphPointList(graph.GraphPoint)
     @setInitialPoints(width, height)
 
-    @pointLine = new graph.GraphPointLine(@pointList.getPoints())
+    @pointLine = new graph.GraphPointLine(@pointList)
 
     @addChild(@boundry)
     @addChild(@pointLine)
@@ -25,13 +25,11 @@ class graph.Graph extends createjs.Container
     @pointList.addEventListener 'pointMove', @onPointUpdate.bind(@)
 
   onPointUpdate: (e)->
-    @pointLine.setPoints(@pointList.getPoints())
     @renderQueue.add(@pointList, @pointLine)
     @dispatchEvent('graphUpdate')
 
   onBoundryClick: (e)->
     @pointList.addPoint(e.stageX, e.stageY)
-    @pointLine.setPoints(@pointList.getPoints())
     @renderQueue.add(@pointList, @pointLine)
     @dispatchEvent('graphUpdate')
 

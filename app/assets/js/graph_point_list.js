@@ -42,6 +42,8 @@
     };
 
     GraphPointList.prototype.onPointMove = function(e) {
+      e.target.x = e.stageX;
+      e.target.y = e.stageY;
       this.sortPoints();
       this.adjustPointLineEnds();
       return this.dispatchEvent('pointMove', e.target);

@@ -7,27 +7,27 @@
   graph.GraphPointLine = (function(_super) {
     __extends(GraphPointLine, _super);
 
-    function GraphPointLine(points, line_options) {
+    function GraphPointLine(graphPointList, line_options) {
       var _ref, _ref1;
 
-      this.points = points != null ? points : [];
       this.line_options = line_options != null ? line_options : {};
       GraphPointLine.__super__.constructor.apply(this, arguments);
+      this.pointList = graphPointList;
       this.line_weight = (_ref = this.line_options.line_weight) != null ? _ref : 1;
       this.line_color = (_ref1 = this.line_options.line_color) != null ? _ref1 : '#000';
       return this;
     }
 
     GraphPointLine.prototype.render = function() {
-      var index, point, _i, _len, _ref, _results;
+      var index, point, points, _i, _len, _results;
 
       this.graphics.clear();
       this.graphics.setStrokeStyle(this.line_weight);
       this.graphics.beginStroke(this.line_color);
-      _ref = this.points;
+      points = this.pointList.getPoints();
       _results = [];
-      for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-        point = _ref[index];
+      for (index = _i = 0, _len = points.length; _i < _len; index = ++_i) {
+        point = points[index];
         if (index === 0) {
           _results.push(this.graphics.moveTo(point.x, point.y));
         } else {
@@ -35,10 +35,6 @@
         }
       }
       return _results;
-    };
-
-    GraphPointLine.prototype.setPoints = function(points) {
-      return this.points = points;
     };
 
     GraphPointLine.prototype.setLineColor = function(color) {

@@ -24,6 +24,8 @@ class graph.GraphPointList extends createjs.Container
       e.dispatchEvent('pointRemove')
 
   onPointMove: (e)->
+    e.target.x = e.stageX
+    e.target.y = e.stageY
     @sortPoints()
     @adjustPointLineEnds()
     @dispatchEvent('pointMove', e.target)

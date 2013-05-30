@@ -18,7 +18,7 @@
       this.boundry = new graph.GraphBoundry(width, height, boundry_options);
       this.pointList = new graph.GraphPointList(graph.GraphPoint);
       this.setInitialPoints(width, height);
-      this.pointLine = new graph.GraphPointLine(this.pointList.getPoints());
+      this.pointLine = new graph.GraphPointLine(this.pointList);
       this.addChild(this.boundry);
       this.addChild(this.pointLine);
       this.addChild(this.pointList);
@@ -33,14 +33,12 @@
     };
 
     Graph.prototype.onPointUpdate = function(e) {
-      this.pointLine.setPoints(this.pointList.getPoints());
       this.renderQueue.add(this.pointList, this.pointLine);
       return this.dispatchEvent('graphUpdate');
     };
 
     Graph.prototype.onBoundryClick = function(e) {
       this.pointList.addPoint(e.stageX, e.stageY);
-      this.pointLine.setPoints(this.pointList.getPoints());
       this.renderQueue.add(this.pointList, this.pointLine);
       return this.dispatchEvent('graphUpdate');
     };

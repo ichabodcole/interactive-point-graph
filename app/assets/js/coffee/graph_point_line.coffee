@@ -1,7 +1,8 @@
 window.graph = graph ? {}
 class graph.GraphPointLine extends createjs.Shape
-  constructor: (@points=[], @line_options={})->
+  constructor: (graphPointList, @line_options={})->
     super
+    @pointList      = graphPointList
     @line_weight    = @line_options.line_weight ? 1
     @line_color     = @line_options.line_color ? '#000'
     return @
@@ -14,16 +15,14 @@ class graph.GraphPointLine extends createjs.Shape
     # because they are set set too.
     @graphics.setStrokeStyle(@line_weight)
     @graphics.beginStroke(@line_color)
+    points = @pointList.getPoints()
 
     # line_offset = if line_thickness % 2 == 1 then 0.5 else 0
-    for point, index in @points
+    for point, index in points
       if index == 0
         @graphics.moveTo(point.x, point.y)
       else
         @graphics.lineTo(point.x, point.y)
-
-  setPoints: (points)->
-    @points = points
 
   setLineColor: (color)->
     @line_color = color
