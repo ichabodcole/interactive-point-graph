@@ -12,7 +12,7 @@ class graph.Graph
     @pointLine = new graph.GraphPointLine(@pointList.getPoints())
 
     @container.addChild(@boundry.getContainer())
-    @container.addChild(@pointLine.getContainer())
+    @container.addChild(@pointLine)
     @container.addChild(@pointList.getContainer())
 
     #set initial start and end points.
@@ -40,4 +40,4 @@ class graph.Graph
 
   draw: ->
     @pointList.draw()
-    @pointLine.draw()
+    @pointLine.render()

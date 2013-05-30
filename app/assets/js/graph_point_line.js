@@ -1,43 +1,44 @@
 (function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
   window.graph = typeof graph !== "undefined" && graph !== null ? graph : {};
 
-  graph.GraphPointLine = (function() {
+  graph.GraphPointLine = (function(_super) {
+    __extends(GraphPointLine, _super);
+
     function GraphPointLine(points, line_options) {
       var _ref, _ref1;
 
       this.points = points != null ? points : [];
       this.line_options = line_options != null ? line_options : {};
-      this.pointLine = new createjs.Graphics();
-      this.pointLineShape = new createjs.Shape();
+      GraphPointLine.__super__.constructor.apply(this, arguments);
       this.line_weight = (_ref = this.line_options.line_weight) != null ? _ref : 1;
       this.line_color = (_ref1 = this.line_options.line_color) != null ? _ref1 : '#000';
       return this;
     }
 
-    GraphPointLine.prototype.draw = function() {
-      var index, point, _i, _len, _ref;
+    GraphPointLine.prototype.render = function() {
+      var index, point, _i, _len, _ref, _results;
 
-      this.pointLine.clear();
-      this.pointLine.setStrokeStyle(this.line_weight);
-      this.pointLine.beginStroke(this.line_color);
+      this.graphics.clear();
+      this.graphics.setStrokeStyle(this.line_weight);
+      this.graphics.beginStroke(this.line_color);
       _ref = this.points;
+      _results = [];
       for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
         point = _ref[index];
         if (index === 0) {
-          this.pointLine.moveTo(point.x, point.y);
+          _results.push(this.graphics.moveTo(point.x, point.y));
         } else {
-          this.pointLine.lineTo(point.x, point.y);
+          _results.push(this.graphics.lineTo(point.x, point.y));
         }
       }
-      return this.pointLineShape.graphics = this.pointLine;
+      return _results;
     };
 
     GraphPointLine.prototype.setPoints = function(points) {
       return this.points = points;
-    };
-
-    GraphPointLine.prototype.getContainer = function() {
-      return this.pointLineShape;
     };
 
     GraphPointLine.prototype.setLineColor = function(color) {
@@ -50,6 +51,6 @@
 
     return GraphPointLine;
 
-  })();
+  })(createjs.Shape);
 
 }).call(this);
