@@ -29,7 +29,6 @@
 
     Graph.prototype.onBoundryClick = function(e) {
       this.pointList.addPoint(e.stageX, e.stageY);
-      console.log(this.pointList.getPoints());
       this.pointLine.setPoints(this.pointList.getPoints());
       this.draw();
       return this.dispatchEvent('graphUpdate');

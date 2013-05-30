@@ -15,8 +15,8 @@ class graph.GraphPointList
   setEventListeners: (point)->
     point.addEventListener 'mousedown', (e)->
       e.addEventListener 'mousemove', (e)->
-        e.target.x = stageX
-        e.target.y = stageY
+        e.target.x = e.stageX
+        e.target.y = e.stageY
 
     point.addEventListener 'click', (e)->
       # console.log e

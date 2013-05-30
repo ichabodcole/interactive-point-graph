@@ -24,8 +24,8 @@
     GraphPointList.prototype.setEventListeners = function(point) {
       point.addEventListener('mousedown', function(e) {
         return e.addEventListener('mousemove', function(e) {
-          e.target.x = stageX;
-          return e.target.y = stageY;
+          e.target.x = e.stageX;
+          return e.target.y = e.stageY;
         });
       });
       point.addEventListener('click', function(e) {});

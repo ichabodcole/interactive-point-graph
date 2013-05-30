@@ -18,7 +18,6 @@ class graph.Graph
     #set initial start and end points.
     @setEventListeners()
     @draw()
-
     return @
 
   setEventListeners: ->
@@ -26,7 +25,6 @@ class graph.Graph
 
   onBoundryClick: (e)->
     @pointList.addPoint(e.stageX, e.stageY)
-    console.log @pointList.getPoints()
     @pointLine.setPoints(@pointList.getPoints())
     @draw()
     @.dispatchEvent('graphUpdate')

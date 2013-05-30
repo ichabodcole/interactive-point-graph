@@ -1,12 +1,13 @@
 window.graph = graph ? {}
-class graph.GraphPoint
-  constructor: (x, y, options={})->
-    size = 6
-    point = new createjs.Shape()
-    point.graphics.beginFill('lightblue').drawCircle(0, 0, size)
-    point.x = x
-    point.y = y
-    point.editable = options.editable ? true
-    point.visible  = options.visible ? true
+class graph.GraphPoint extends createjs.Shape
+  constructor: (x, y, options={}, graphics)->
+    super graphics
+    @editable = options.editable ? true
+    @visible  = options.visible ? true
+    @radius   = options.radius ? 6
+    # point = new createjs.Shape()
+    @graphics.beginFill('lightblue').drawCircle(0, 0, @radius)
+    @x = x
+    @y = y
     # point.editable = editable
-    return point
+    return @
