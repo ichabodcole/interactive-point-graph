@@ -10,10 +10,12 @@ class graph.Graph extends createjs.Container
     @setInitialPoints(width, height)
 
     @pointLine = new graph.GraphPointLine(@pointList)
+    @timePoint = new graph.GraphTimePoint(@pointList)
 
     @addChild(@boundry)
     @addChild(@pointLine)
     @addChild(@pointList)
+    @addChild(@timePoint)
 
     @setEventListeners()
     # Add initial items to be rendered on instantiation

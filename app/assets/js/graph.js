@@ -19,9 +19,11 @@
       this.pointList = new graph.GraphPointList(graph.GraphPoint);
       this.setInitialPoints(width, height);
       this.pointLine = new graph.GraphPointLine(this.pointList);
+      this.timePoint = new graph.GraphTimePoint(this.pointList);
       this.addChild(this.boundry);
       this.addChild(this.pointLine);
       this.addChild(this.pointList);
+      this.addChild(this.timePoint);
       this.setEventListeners();
       this.renderQueue.add(this.boundry, this.pointList, this.pointLine);
       return this;
