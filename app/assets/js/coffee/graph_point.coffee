@@ -6,10 +6,11 @@ class graph.GraphPoint extends createjs.Shape
     @editable = options.editable ? true
     @visible  = options.visible ? true
     @radius   = options.radius ? 6
+    @color    = options.color ? 'lightblue'
     # point = new createjs.Shape()
-    @graphics.beginFill('lightblue').drawCircle(0, 0, @radius)
-    @x = x
-    @y = y
+    @graphics.beginFill(@color).drawCircle(0, 0, @radius)
+    @x = x ? 0
+    @y = y ? 0
     # point.editable = editable
     return @
 
