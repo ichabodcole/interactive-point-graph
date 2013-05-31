@@ -27,7 +27,6 @@ $ ()->
   AB = new AeatherBeats()
   AB.render()
 
-
   # onGraphClick = (evt)->
   #   point = createPoint(evt.stageX, evt.stageY)
   #   point.addEventListener('mousedown', (evt)->

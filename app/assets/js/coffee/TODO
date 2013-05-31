@@ -1,2 +1,4 @@
  ✔ Fix lines not clearing on point create @done (13-05-30 12:04)
- ☐ Add curved point types
+ ✔ Add curved point types @done (13-05-30 19:10)
+ ☐ Implement point type switching
+ ☐ Animate point moving along line

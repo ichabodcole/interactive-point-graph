@@ -12,3 +12,12 @@ class graph.GraphPoint extends createjs.Shape
     @y = y
     # point.editable = editable
     return @
+
+  setType: (type)->
+    @type = type
+
+  toggleType: ->
+    if @type == 'linear'
+      @type = 'curve'
+    else
+      @type = 'linear'

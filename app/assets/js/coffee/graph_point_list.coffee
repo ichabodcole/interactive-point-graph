@@ -4,6 +4,7 @@ class graph.GraphPointList extends createjs.Container
     super
     @points = []
     @GraphPoint = graphPointClass
+    @keyboard = new graph.GraphKeyBoard()
 
   addPoint: (x, y, options={})->
     point = new @GraphPoint(x, y, options)
@@ -14,7 +15,6 @@ class graph.GraphPointList extends createjs.Container
   addPoints: (points)->
     for point in points
       @addPoint(point.x, point.y, point.options)
-
     @updatePoints()
 
   setEventListeners: (point)->
@@ -22,13 +22,21 @@ class graph.GraphPointList extends createjs.Container
     point.addEventListener 'mousedown', (e)->
       e.addEventListener 'mousemove', _self.movePoint.bind(_self)
 
+    point.addEventListener 'click', _self.togglePointType.bind(_self)
     point.addEventListener 'dblclick', _self.removePoint.bind(_self)
+    # @dispatchEvent('shiftClickPoint')
 
   movePoint: (e)->
     e.target.x = e.stageX
     e.target.y = e.stageY
     @updatePoints()
     @dispatchEvent('pointMove', e.target)
+
+  togglePointType: (e)->
+    if @keyboard.keyIsDown(graph.GraphKeyBoard.SHIFT_KEY)
+      e.target.toggleType()
+      @updatePoints()
+      @dispatchEvent('pointTypeChange', e.target)
 
   removePoint: (e)->
     @removeChild(e.target)

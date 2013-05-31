@@ -30,7 +30,8 @@
     Graph.prototype.setEventListeners = function() {
       this.boundry.addEventListener('click', this.onBoundryClick.bind(this));
       this.pointList.addEventListener('pointMove', this.onPointUpdate.bind(this));
-      return this.pointList.addEventListener('pointRemove', this.onPointUpdate.bind(this));
+      this.pointList.addEventListener('pointRemove', this.onPointUpdate.bind(this));
+      return this.pointList.addEventListener('pointTypeChange', this.onPointUpdate.bind(this));
     };
 
     Graph.prototype.onPointUpdate = function(e) {

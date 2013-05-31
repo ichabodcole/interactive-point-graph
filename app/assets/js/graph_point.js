@@ -24,6 +24,18 @@
       return this;
     }
 
+    GraphPoint.prototype.setType = function(type) {
+      return this.type = type;
+    };
+
+    GraphPoint.prototype.toggleType = function() {
+      if (this.type === 'linear') {
+        return this.type = 'curve';
+      } else {
+        return this.type = 'linear';
+      }
+    };
+
     return GraphPoint;
 
   })(createjs.Shape);

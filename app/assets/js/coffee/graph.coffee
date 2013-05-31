@@ -24,6 +24,7 @@ class graph.Graph extends createjs.Container
     @boundry.addEventListener 'click', @onBoundryClick.bind(@)
     @pointList.addEventListener 'pointMove', @onPointUpdate.bind(@)
     @pointList.addEventListener 'pointRemove', @onPointUpdate.bind(@)
+    @pointList.addEventListener 'pointTypeChange', @onPointUpdate.bind(@)
 
   onPointUpdate: (e)->
     @renderQueue.add(@pointList, @pointLine)

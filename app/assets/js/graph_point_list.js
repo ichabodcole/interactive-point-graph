@@ -11,6 +11,7 @@
       GraphPointList.__super__.constructor.apply(this, arguments);
       this.points = [];
       this.GraphPoint = graphPointClass;
+      this.keyboard = new graph.GraphKeyBoard();
     }
 
     GraphPointList.prototype.addPoint = function(x, y, options) {
@@ -42,6 +43,7 @@
       point.addEventListener('mousedown', function(e) {
         return e.addEventListener('mousemove', _self.movePoint.bind(_self));
       });
+      point.addEventListener('click', _self.togglePointType.bind(_self));
       return point.addEventListener('dblclick', _self.removePoint.bind(_self));
     };
 
@@ -50,6 +52,14 @@
       e.target.y = e.stageY;
       this.updatePoints();
       return this.dispatchEvent('pointMove', e.target);
+    };
+
+    GraphPointList.prototype.togglePointType = function(e) {
+      if (this.keyboard.keyIsDown(graph.GraphKeyBoard.SHIFT_KEY)) {
+        e.target.toggleType();
+        this.updatePoints();
+        return this.dispatchEvent('pointTypeChange', e.target);
+      }
     };
 
     GraphPointList.prototype.removePoint = function(e) {
