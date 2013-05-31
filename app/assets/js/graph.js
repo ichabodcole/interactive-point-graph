@@ -53,7 +53,22 @@
         editable: false
       };
       this.pointList.addPoint(0, base_line, point_options);
-      return this.pointList.addPoint(width, base_line, point_options);
+      this.pointList.addPoint(width, base_line, point_options);
+      return this.pointList.addPoints([
+        {
+          x: 100,
+          y: 75
+        }, {
+          x: 200,
+          y: 180
+        }, {
+          x: 350,
+          y: 120
+        }, {
+          x: 400,
+          y: 200
+        }
+      ]);
     };
 
     Graph.prototype.render = function() {

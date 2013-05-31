@@ -13,17 +13,26 @@
       this.GraphPoint = graphPointClass;
     }
 
-    GraphPointList.prototype.addPoint = function(x, y, point_options) {
+    GraphPointList.prototype.addPoint = function(x, y, options) {
       var point;
 
-      if (point_options == null) {
-        point_options = {};
+      if (options == null) {
+        options = {};
       }
-      point = new this.GraphPoint(x, y, point_options);
+      point = new this.GraphPoint(x, y, options);
       this.setEventListeners(point);
       this.points.push(point);
-      this.sortPoints();
-      return this.adjustPointLineEnds();
+      return this.updatePoints();
+    };
+
+    GraphPointList.prototype.addPoints = function(points) {
+      var point, _i, _len;
+
+      for (_i = 0, _len = points.length; _i < _len; _i++) {
+        point = points[_i];
+        this.addPoint(point.x, point.y, point.options);
+      }
+      return this.updatePoints();
     };
 
     GraphPointList.prototype.setEventListeners = function(point) {

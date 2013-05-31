@@ -40,6 +40,14 @@ class graph.Graph extends createjs.Container
     @pointList.addPoint(0, base_line, point_options)
     @pointList.addPoint(width, base_line, point_options)
 
+    # For Testing
+    @pointList.addPoints [
+                          {x:100, y:75},
+                          {x:200, y:180},
+                          {x:350, y:120},
+                          {x:400, y:200}
+                         ]
+
   render: ->
     @renderQueue.render()
     @renderQueue.clear()

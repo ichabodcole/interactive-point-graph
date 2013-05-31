@@ -5,12 +5,17 @@ class graph.GraphPointList extends createjs.Container
     @points = []
     @GraphPoint = graphPointClass
 
-  addPoint: (x, y, point_options={})->
-    point = new @GraphPoint(x, y, point_options)
+  addPoint: (x, y, options={})->
+    point = new @GraphPoint(x, y, options)
     @setEventListeners(point)
     @points.push(point)
-    @sortPoints()
-    @adjustPointLineEnds()
+    @updatePoints()
+
+  addPoints: (points)->
+    for point in points
+      @addPoint(point.x, point.y, point.options)
+
+    @updatePoints()
 
   setEventListeners: (point)->
     _self = @
