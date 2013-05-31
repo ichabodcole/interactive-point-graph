@@ -22,7 +22,28 @@ class graph.GraphPointLine extends createjs.Shape
       if index == 0
         @graphics.moveTo(point.x, point.y)
       else
-        @graphics.lineTo(point.x, point.y)
+        last_point = points[index-1]
+        lp_x = last_point.x
+        lp_y = last_point.y
+        if point.type == 'curve' && last_point.type == 'curve'
+          cpx1 = lp_x + (point.x - lp_x)/2
+          cpy1 = lp_y
+          cpx2 = lp_x + (point.x - lp_x)/2
+          cpy2 = point.y
+          @graphics.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, point.x, point.y)
+
+        else if point.type == 'curve'  && last_point.type == 'linear'
+          cpx = lp_x + (point.x - lp_x)/2
+          cpy = point.y
+          @graphics.curveTo(cpx, cpy, point.x, point.y)
+
+        else if point.type == 'linear' && last_point.type == 'curve'
+          cpx = lp_x + (point.x - lp_x)/2
+          cpy = lp_y
+          @graphics.curveTo(cpx, cpy, point.x, point.y)
+
+        else
+          @graphics.lineTo(point.x, point.y)
 
   setLineColor: (color)->
     @line_color = color

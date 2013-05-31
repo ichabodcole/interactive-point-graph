@@ -8,15 +8,16 @@
     __extends(GraphPoint, _super);
 
     function GraphPoint(x, y, options, graphics) {
-      var _ref, _ref1, _ref2;
+      var _ref, _ref1, _ref2, _ref3;
 
       if (options == null) {
         options = {};
       }
       GraphPoint.__super__.constructor.call(this, graphics);
-      this.editable = (_ref = options.editable) != null ? _ref : true;
-      this.visible = (_ref1 = options.visible) != null ? _ref1 : true;
-      this.radius = (_ref2 = options.radius) != null ? _ref2 : 6;
+      this.type = (_ref = options.type) != null ? _ref : 'linear';
+      this.editable = (_ref1 = options.editable) != null ? _ref1 : true;
+      this.visible = (_ref2 = options.visible) != null ? _ref2 : true;
+      this.radius = (_ref3 = options.radius) != null ? _ref3 : 6;
       this.graphics.beginFill('lightblue').drawCircle(0, 0, this.radius);
       this.x = x;
       this.y = y;

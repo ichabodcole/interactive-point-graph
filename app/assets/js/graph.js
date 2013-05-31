@@ -60,10 +60,16 @@
           y: 75
         }, {
           x: 200,
-          y: 180
+          y: 180,
+          options: {
+            type: 'curve'
+          }
         }, {
           x: 350,
-          y: 120
+          y: 120,
+          options: {
+            type: 'curve'
+          }
         }, {
           x: 400,
           y: 200

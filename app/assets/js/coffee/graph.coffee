@@ -43,13 +43,12 @@ class graph.Graph extends createjs.Container
     # For Testing
     @pointList.addPoints [
                           {x:100, y:75},
-                          {x:200, y:180},
-                          {x:350, y:120},
+                          {x:200, y:180, options:{type:'curve'}},
+                          {x:350, y:120, options:{type:'curve'}},
                           {x:400, y:200}
                          ]
 
   render: ->
     @renderQueue.render()
     @renderQueue.clear()
-
 

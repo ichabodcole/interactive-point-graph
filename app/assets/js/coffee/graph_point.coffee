@@ -2,6 +2,7 @@ window.graph = graph ? {}
 class graph.GraphPoint extends createjs.Shape
   constructor: (x, y, options={}, graphics)->
     super graphics
+    @type     = options.type ? 'linear'
     @editable = options.editable ? true
     @visible  = options.visible ? true
     @radius   = options.radius ? 6
