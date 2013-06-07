@@ -27,6 +27,11 @@ class graph.Graph extends createjs.Container
     @pointList.addEventListener 'pointMove', @onPointUpdate.bind(@)
     @pointList.addEventListener 'pointRemove', @onPointUpdate.bind(@)
     @pointList.addEventListener 'pointTypeChange', @onPointUpdate.bind(@)
+    @timePoint.addEventListener 'update', @onTimePointUpdate.bind(@)
+
+  onTimePointUpdate: (e)->
+    @renderQueue.add(@timePoint)
+    @dispatchEvent('graphUpdate')
 
   onPointUpdate: (e)->
     @renderQueue.add(@pointList, @pointLine)

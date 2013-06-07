@@ -33,7 +33,13 @@
       this.boundry.addEventListener('click', this.onBoundryClick.bind(this));
       this.pointList.addEventListener('pointMove', this.onPointUpdate.bind(this));
       this.pointList.addEventListener('pointRemove', this.onPointUpdate.bind(this));
-      return this.pointList.addEventListener('pointTypeChange', this.onPointUpdate.bind(this));
+      this.pointList.addEventListener('pointTypeChange', this.onPointUpdate.bind(this));
+      return this.timePoint.addEventListener('update', this.onTimePointUpdate.bind(this));
+    };
+
+    Graph.prototype.onTimePointUpdate = function(e) {
+      this.renderQueue.add(this.timePoint);
+      return this.dispatchEvent('graphUpdate');
     };
 
     Graph.prototype.onPointUpdate = function(e) {

@@ -87,6 +87,27 @@
       }
     };
 
+    GraphPointList.prototype.getCurrentPoints = function(x, points) {
+      var index, p0, p1, pIndex, point, _i, _len;
+
+      p0 = null;
+      p1 = null;
+      pIndex = null;
+      for (index = _i = 0, _len = points.length; _i < _len; index = ++_i) {
+        point = points[index];
+        if (point.x > x) {
+          pIndex = index;
+          break;
+        }
+      }
+      p0 = points[pIndex - 1];
+      p1 = points[pIndex];
+      return {
+        p0: p0,
+        p1: p1
+      };
+    };
+
     GraphPointList.prototype.updatePoints = function() {
       this.sortPoints();
       return this.adjustPointLineEnds();

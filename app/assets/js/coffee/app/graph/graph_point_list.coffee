@@ -56,6 +56,20 @@ class graph.GraphPointList extends createjs.Container
       last_point = @points.length - 1
       @points[last_point].y = @points[last_point - 1].y
 
+  #TODO: This may not be the best place for this function
+  getCurrentPoints: (x, points)->
+    p0 = null
+    p1 = null
+    pIndex = null
+    for point, index in points
+      if point.x > x
+        pIndex = index
+        break;
+    p0 = points[pIndex - 1]
+    p1 = points[pIndex]
+
+    return {p0: p0, p1: p1}
+
   updatePoints: ->
     @sortPoints()
     @adjustPointLineEnds()

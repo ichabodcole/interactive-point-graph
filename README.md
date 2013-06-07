@@ -1,1 +1,1 @@
-### Directory and file template for building JavaScript web apps.
+### Experiments with graphing and sound (mysterious sounding, I know).

@@ -15,15 +15,37 @@
         radius: 3
       };
       this.pointList = graphPointList;
+      this.fps = 1000 / 30;
+      this.start_time = new Date();
+      this.total_time = 5000;
+      this.distance = 780;
+      this.time_scale = this.distance / this.total_time;
       first_point = this.pointList.getPoints()[0];
       GraphTimePoint.__super__.constructor.call(this, first_point.x, first_point.y, options);
     }
 
-    GraphTimePoint.prototype.render = function() {};
+    GraphTimePoint.prototype.findPointAlongPath = function() {};
+
+    GraphTimePoint.prototype.move = function() {
+      var now, time;
+
+      now = new Date();
+      time = now - this.start_time;
+      return this.x = this.time_scale * time;
+    };
+
+    GraphTimePoint.prototype.render = function() {
+      return this.move();
+    };
 
     GraphTimePoint.prototype.aniLoop = function() {
-      window.requestAnimationFrame(this.aniLoop.bind(this));
-      return this.render();
+      var _self;
+
+      _self = this;
+      setTimeout(function() {
+        return window.requestAnimationFrame(_self.aniLoop.bind(_self));
+      }, this.fps);
+      return this.dispatchEvent('update');
     };
 
     return GraphTimePoint;
