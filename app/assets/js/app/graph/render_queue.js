@@ -10,6 +10,7 @@
 
       function GraphRenderQueue(elements) {
         GraphRenderQueue.__super__.constructor.call(this, elements);
+        this.autoClear = false;
       }
 
       GraphRenderQueue.prototype.add = function() {
@@ -28,14 +29,15 @@
       };
 
       GraphRenderQueue.prototype.render = function() {
-        var obj, _i, _len, _results;
+        var obj, _i, _len;
 
-        _results = [];
         for (_i = 0, _len = this.length; _i < _len; _i++) {
           obj = this[_i];
-          _results.push(obj.render());
+          obj.render();
         }
-        return _results;
+        if (this.autoClear) {
+          return this.clear();
+        }
       };
 
       return GraphRenderQueue;

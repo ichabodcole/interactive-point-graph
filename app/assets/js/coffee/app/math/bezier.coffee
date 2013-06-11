@@ -38,6 +38,7 @@ define ->
 
       return { x: x, y: y }
 
+    #TODO: Implement control points with correct angle
     @cpAngle: (p0, p1, p2)->
       mp0x = @median(p0.x, p1.x)
       mp0y = @median(p0.y, p1.y)
