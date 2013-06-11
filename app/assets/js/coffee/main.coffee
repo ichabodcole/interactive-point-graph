@@ -1,10 +1,12 @@
 requirejs.config({
   baseUrl: 'assets/js',
   paths: {
-    lib: 'lib'
-    app: 'app'
-    graph: 'app/graph'
-    jquery: 'http://code.createjs.com/easeljs-0.6.1.min'
+    lib: 'lib',
+    app: 'app',
+    graph: 'app/graph',
+    jquery: 'lib/jquery',
+    underscore: 'lib/underscore',
+    createjs: 'http://code.createjs.com/easeljs-0.6.1.min'
   }
 
   shim:{
@@ -13,22 +15,12 @@ requirejs.config({
     },
     'underscore': {
       exports: '_'
+    },
+    'createjs': {
+      exports: 'createjs'
     }
   }
 
 })
 
-requirejs([
-  'lib/jquery',
-  'lib/underscore',
-  'http://code.createjs.com/easeljs-0.6.1.min.js',
-  'graph/keyboard',
-  'graph/point',
-  'graph/point_list',
-  'graph/point_line',
-  'graph/time_point',
-  'graph/render_queue',
-  'graph/boundry',
-  'graph/graph',
-  'app/application'
-  ])
+requirejs ['app/application']

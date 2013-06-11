@@ -1,51 +1,53 @@
-window.graph = graph ? {}
-class graph.GraphBoundry extends createjs.Shape
-  constructor: (@width, @height, @line_options={})->
-    super
-    @horz_spacing = 100
-    @vert_spacing = 30
+define ['createjs'], (createjs)->
 
-    @horz_lines = @width  / @horz_spacing
-    @vert_lines = @height / @vert_spacing
+  class GraphBoundry extends createjs.Shape
+    constructor: (@width, @height, @line_options={})->
+      super
+      @horz_spacing = 100
+      @vert_spacing = 30
 
-    hitArea = new createjs.Shape()
-    hitArea.graphics.beginFill('red').drawRect(0, 0, @width, @height)
-    @hitArea = hitArea
-    return @
+      @horz_lines = @width  / @horz_spacing
+      @vert_lines = @height / @vert_spacing
 
-  createLines: (size, num_lines, line_spacing, direction, line_options={})->
-    line_thickness = line_options.line_thickness ? 1
-    line_color     = line_options.line_color ? '#000'
+      hitArea = new createjs.Shape()
+      hitArea.graphics.beginFill('red').drawRect(0, 0, @width, @height)
+      @hitArea = hitArea
+      return @
 
-    line_offset = if line_thickness % 2 == 1 then 0.5 else 0
+    createLines: (size, num_lines, line_spacing, direction, line_options={})->
+      line_thickness = line_options.line_thickness ? 1
+      line_color     = line_options.line_color ? '#000'
 
-    @graphics.setStrokeStyle(line_thickness)
-    @graphics.beginStroke(line_color)
+      line_offset = if line_thickness % 2 == 1 then 0.5 else 0
 
-    for line in [0..num_lines]
-      if line != 0 && line != num_lines
-        increment = line * line_spacing + line_offset
+      @graphics.setStrokeStyle(line_thickness)
+      @graphics.beginStroke(line_color)
 
-        if direction == 'horz'
-          start_x = end_x = increment
-          start_y = 0
-          end_y   = size
+      for line in [0..num_lines]
+        if line != 0 && line != num_lines
+          increment = line * line_spacing + line_offset
 
-        else if direction == 'vert'
-          start_x = 0
-          start_y = end_y = increment
-          end_x   = size
+          if direction == 'horz'
+            start_x = end_x = increment
+            start_y = 0
+            end_y   = size
 
-        @graphics.moveTo(start_x, start_y)
-        @graphics.lineTo(end_x, end_y)
+          else if direction == 'vert'
+            start_x = 0
+            start_y = end_y = increment
+            end_x   = size
 
-  getValueAtPoint: (x, y)->
-    return [x, y]
+          @graphics.moveTo(start_x, start_y)
+          @graphics.lineTo(end_x, end_y)
 
-  render: ->
-    @graphics.clear()
-    @createLines(@height, @horz_lines, @horz_spacing, 'horz', @line_options)
-    @createLines(@width, @vert_lines, @vert_spacing, 'vert', @line_options)
+    getValueAtPoint: (x, y)->
+      return [x, y]
 
-# generic graph maker
-# context, width, height, value_pairs={}, line_options={}
+    render: ->
+      @graphics.clear()
+      @createLines(@height, @horz_lines, @horz_spacing, 'horz', @line_options)
+      @createLines(@width, @vert_lines, @vert_spacing, 'vert', @line_options)
+
+  return GraphBoundry
+  # generic graph maker
+  # context, width, height, value_pairs={}, line_options={}

@@ -1,10 +1,5 @@
-window.math = math ? {}
+define ->
+  class Vector
+    constructor: ()->
 
-class math.Point
-  constructor: (x, y)->
-    @x = x
-    @y = y
-    return @
-
-class math.Vector
-  constructor: ()->
+  return Vector

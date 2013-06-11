@@ -1,22 +1,14 @@
 (function() {
-  window.math = typeof math !== "undefined" && math !== null ? math : {};
+  define(function() {
+    var Vector;
 
-  math.Point = (function() {
-    function Point(x, y) {
-      this.x = x;
-      this.y = y;
-      return this;
-    }
+    Vector = (function() {
+      function Vector() {}
 
-    return Point;
+      return Vector;
 
-  })();
-
-  math.Vector = (function() {
-    function Vector() {}
-
+    })();
     return Vector;
-
-  })();
+  });
 
 }).call(this);

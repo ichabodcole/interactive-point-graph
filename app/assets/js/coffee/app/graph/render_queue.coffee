@@ -1,15 +1,18 @@
-window.graph = graph ? {}
-class graph.GraphRenderQueue extends Array
-  constructor: (elements)->
-    super elements
+define ->
 
-  add: ()->
-    for argument in arguments
-      @push(argument)
+  class GraphRenderQueue extends Array
+    constructor: (elements)->
+      super elements
 
-  clear: ->
-    @length = 0
+    add: ()->
+      for argument in arguments
+        @push(argument)
 
-  render: ->
-    for obj in @
-      obj.render()
+    clear: ->
+      @length = 0
+
+    render: ->
+      for obj in @
+        obj.render()
+
+  return GraphRenderQueue
