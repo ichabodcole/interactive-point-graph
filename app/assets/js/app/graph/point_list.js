@@ -56,7 +56,7 @@
       };
 
       GraphPointList.prototype.togglePointType = function(e) {
-        if (this.keyboard.keyIsDown(graph.GraphKeyBoard.SHIFT_KEY)) {
+        if (this.keyboard.keyIsDown(GraphKeyBoard.SHIFT_KEY)) {
           e.target.toggleType();
           this.updatePoints();
           return this.dispatchEvent('pointTypeChange', e.target);

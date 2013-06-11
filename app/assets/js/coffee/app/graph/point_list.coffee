@@ -34,7 +34,7 @@ define ['underscore', 'createjs', 'graph/keyboard'], (_, createjs, GraphKeyBoard
       @dispatchEvent('pointMove', e.target)
 
     togglePointType: (e)->
-      if @keyboard.keyIsDown(graph.GraphKeyBoard.SHIFT_KEY)
+      if @keyboard.keyIsDown(GraphKeyBoard.SHIFT_KEY)
         e.target.toggleType()
         @updatePoints()
         @dispatchEvent('pointTypeChange', e.target)
