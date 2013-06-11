@@ -7,6 +7,7 @@ define ['lib/domReady', 'createjs', 'graph/graph'], (domReady, createjs, Graph)-
       @stage.autoClear = true
       @graphView = new Graph(@stage_width, @stage_height)
       @graphView.addEventListener('graphUpdate', @)
+      @stage.addChild(@graphView)
 
     handleEvent: (e)->
       # console.log e.type
@@ -18,9 +19,6 @@ define ['lib/domReady', 'createjs', 'graph/graph'], (domReady, createjs, Graph)-
 
     render: ->
       # console.log "render"
-      @stage.removeAllChildren()
-      @stage.clear()
-      @stage.addChild(@graphView)
       @graphView.render()
       @stage.update()
 

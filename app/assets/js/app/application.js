@@ -10,6 +10,7 @@
         this.stage.autoClear = true;
         this.graphView = new Graph(this.stage_width, this.stage_height);
         this.graphView.addEventListener('graphUpdate', this);
+        this.stage.addChild(this.graphView);
       }
 
       AeatherBeats.prototype.handleEvent = function(e) {
@@ -23,9 +24,6 @@
       };
 
       AeatherBeats.prototype.render = function() {
-        this.stage.removeAllChildren();
-        this.stage.clear();
-        this.stage.addChild(this.graphView);
         this.graphView.render();
         return this.stage.update();
       };
