@@ -4,6 +4,7 @@
     paths: {
       lib: 'lib',
       app: 'app',
+      math: 'app/math',
       graph: 'app/graph',
       jquery: 'lib/jquery',
       underscore: 'lib/underscore',
