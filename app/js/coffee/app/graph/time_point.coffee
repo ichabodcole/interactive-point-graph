@@ -14,8 +14,23 @@ define ['graph/point', 'math/bezier'], (GraphPoint, Bezier)->
       super first_point.x, first_point.y, options
       # @aniLoop()
       # @dispatchEvent('update')
-      for i in [0..2]
-        @render()
+      # for i in [0..2]
+      #   @render()
+      return @
+
+    #FIXME: getting undefined return after first point look up.
+    getCurrentPoints: (x, points)->
+      p0 = null
+      p1 = null
+      pIndex = null
+      for point, index in points
+        if point.x > x
+          pIndex = index
+          break;
+      p0 = points[pIndex - 1]
+      p1 = points[pIndex]
+
+      return {p0: p0, p1: p1}
 
     # Returns a number between 0 and 1
     findT: (p0, p1)->
@@ -46,19 +61,6 @@ define ['graph/point', 'math/bezier'], (GraphPoint, Bezier)->
 
     setStartTime: ->
       if @start_time == null then start_time = new Date()
-
-    getCurrentPoints: (x, points)->
-      p0 = null
-      p1 = null
-      pIndex = null
-      for point, index in points
-        if point.x > x
-          pIndex = index
-          break;
-      p0 = points[pIndex - 1]
-      p1 = points[pIndex]
-
-      return {p0: p0, p1: p1}
 
     move: ->
       p = @findPointAlongPath()

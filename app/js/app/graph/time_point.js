@@ -9,7 +9,7 @@
       __extends(GraphTimePoint, _super);
 
       function GraphTimePoint(graphPointList) {
-        var first_point, i, options, _i;
+        var first_point, options;
 
         options = {
           color: 'red',
@@ -23,10 +23,29 @@
         this.time_scale = this.distance / this.total_time;
         first_point = this.pointList.getPoints()[0];
         GraphTimePoint.__super__.constructor.call(this, first_point.x, first_point.y, options);
-        for (i = _i = 0; _i <= 2; i = ++_i) {
-          this.render();
-        }
+        return this;
       }
+
+      GraphTimePoint.prototype.getCurrentPoints = function(x, points) {
+        var index, p0, p1, pIndex, point, _i, _len;
+
+        p0 = null;
+        p1 = null;
+        pIndex = null;
+        for (index = _i = 0, _len = points.length; _i < _len; index = ++_i) {
+          point = points[index];
+          if (point.x > x) {
+            pIndex = index;
+            break;
+          }
+        }
+        p0 = points[pIndex - 1];
+        p1 = points[pIndex];
+        return {
+          p0: p0,
+          p1: p1
+        };
+      };
 
       GraphTimePoint.prototype.findT = function(p0, p1) {
         var graphTimeX, now, relativeTimeX, t, tIncrement, time, xDiff;
@@ -63,27 +82,6 @@
         if (this.start_time === null) {
           return start_time = new Date();
         }
-      };
-
-      GraphTimePoint.prototype.getCurrentPoints = function(x, points) {
-        var index, p0, p1, pIndex, point, _i, _len;
-
-        p0 = null;
-        p1 = null;
-        pIndex = null;
-        for (index = _i = 0, _len = points.length; _i < _len; index = ++_i) {
-          point = points[index];
-          if (point.x > x) {
-            pIndex = index;
-            break;
-          }
-        }
-        p0 = points[pIndex - 1];
-        p1 = points[pIndex];
-        return {
-          p0: p0,
-          p1: p1
-        };
       };
 
       GraphTimePoint.prototype.move = function() {
