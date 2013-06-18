@@ -11,12 +11,10 @@ define ['underscore', 'createjs', 'graph/keyboard'], (_, createjs, GraphKeyBoard
       point = new @GraphPoint(x, y, options)
       @setEventListeners(point)
       @points.push(point)
-      @updatePoints()
 
     addPoints: (points)->
       for point in points
         @addPoint(point.x, point.y, point.options)
-      @updatePoints()
 
     setEventListeners: (point)->
       _self = @
@@ -30,21 +28,21 @@ define ['underscore', 'createjs', 'graph/keyboard'], (_, createjs, GraphKeyBoard
     movePoint: (e)->
       e.target.x = e.stageX
       e.target.y = e.stageY
-      @updatePoints()
       @dispatchEvent('pointMove', e.target)
 
     togglePointType: (e)->
       if @keyboard.keyIsDown(GraphKeyBoard.SHIFT_KEY)
         e.target.toggleType()
-        @updatePoints()
         @dispatchEvent('pointTypeChange', e.target)
 
     removePoint: (e)->
       @removeChild(e.target)
-      @points = _.reject @points, (point)->
-          return point.id == e.target.id
-      @updatePoints()
+      @removePointFromList(e.target.id)
       @dispatchEvent('pointRemove', e.target)
+
+    removePointFromList: (pointId)->
+      @points = _.reject @points, (point)->
+          return point.id == pointId
 
     sortPoints: ->
       @points = _.sortBy @points, (point)->
@@ -76,6 +74,7 @@ define ['underscore', 'createjs', 'graph/keyboard'], (_, createjs, GraphKeyBoard
       @adjustPointLineEnds()
 
     render: ->
+      @updatePoints()
       for point in @points
         @addChild(point)
 

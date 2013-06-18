@@ -37,7 +37,7 @@
         return expect(this.timePoint).to.be["instanceof"](GraphTimePoint);
       });
       return describe("getCurrentPoints", function() {
-        return it("should return the points x is inbetween", function() {
+        return it("should return the points the xPos is inbetween", function() {
           var curPoints, points, testPoints, xPos;
 
           xPos = 250;

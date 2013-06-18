@@ -23,18 +23,18 @@
         }
         point = new this.GraphPoint(x, y, options);
         this.setEventListeners(point);
-        this.points.push(point);
-        return this.updatePoints();
+        return this.points.push(point);
       };
 
       GraphPointList.prototype.addPoints = function(points) {
-        var point, _i, _len;
+        var point, _i, _len, _results;
 
+        _results = [];
         for (_i = 0, _len = points.length; _i < _len; _i++) {
           point = points[_i];
-          this.addPoint(point.x, point.y, point.options);
+          _results.push(this.addPoint(point.x, point.y, point.options));
         }
-        return this.updatePoints();
+        return _results;
       };
 
       GraphPointList.prototype.setEventListeners = function(point) {
@@ -51,25 +51,26 @@
       GraphPointList.prototype.movePoint = function(e) {
         e.target.x = e.stageX;
         e.target.y = e.stageY;
-        this.updatePoints();
         return this.dispatchEvent('pointMove', e.target);
       };
 
       GraphPointList.prototype.togglePointType = function(e) {
         if (this.keyboard.keyIsDown(GraphKeyBoard.SHIFT_KEY)) {
           e.target.toggleType();
-          this.updatePoints();
           return this.dispatchEvent('pointTypeChange', e.target);
         }
       };
 
       GraphPointList.prototype.removePoint = function(e) {
         this.removeChild(e.target);
-        this.points = _.reject(this.points, function(point) {
-          return point.id === e.target.id;
-        });
-        this.updatePoints();
+        this.removePointFromList(e.target.id);
         return this.dispatchEvent('pointRemove', e.target);
+      };
+
+      GraphPointList.prototype.removePointFromList = function(pointId) {
+        return this.points = _.reject(this.points, function(point) {
+          return point.id === pointId;
+        });
       };
 
       GraphPointList.prototype.sortPoints = function() {
@@ -117,6 +118,7 @@
       GraphPointList.prototype.render = function() {
         var point, _i, _len, _ref, _results;
 
+        this.updatePoints();
         _ref = this.points;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {

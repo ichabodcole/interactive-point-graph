@@ -18,7 +18,7 @@ define ['math/bezier', 'graph/time_point'], (Bezier, GraphTimePoint)->
       expect(@timePoint).to.be.instanceof GraphTimePoint
 
     describe "getCurrentPoints", ->
-      it "should return the points x is inbetween", ->
+      it "should return the points the xPos is inbetween", ->
         xPos = 250
         points = pointList.getPoints()
         testPoints = {p0: points[2], p1: points[3]}

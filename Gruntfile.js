@@ -53,11 +53,11 @@ module.exports = function(grunt){
         tasks: ['livereload']
       },
       compile_app: {
-        files: ['app/**/*.coffee'],
+        files: ['app/js/coffee/**/*.coffee'],
         tasks: ['coffee:app']
       },
       compile_test: {
-        files: ['test/**/*.coffee'],
+        files: ['test/spec/coffee/**/*.coffee'],
         tasks: ['coffee:test']
       },
       sass: {
