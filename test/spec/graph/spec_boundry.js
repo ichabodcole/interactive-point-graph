@@ -2,19 +2,67 @@
   define(['graph/boundry'], function(GraphBoundry) {
     return describe("GraphBoundry", function() {
       beforeEach(function() {
-        return this.boundry = new GraphBoundry(800, 300);
+        var boundryOptions;
+
+        boundryOptions = {
+          width: 500,
+          height: 300,
+          duration: 20,
+          durationIncrement: 0.1,
+          elevation: 135,
+          elevationStart: 0,
+          elevationIncrement: 0.1,
+          borderLineWidth: 1,
+          borderColor: '#ccc',
+          borderBornerRadius: 0,
+          gridLineWidth: 1,
+          gridColor: '#ccc',
+          fontColor: '#ccc',
+          fontFamily: 'Arial',
+          fontSize: 12
+        };
+        return this.boundry = new GraphBoundry();
       });
       it("should return an instance of GraphBoundry", function() {
         return expect(this.boundry).to.be["instanceof"](GraphBoundry);
       });
-      describe("createLines", function() {
-        return it("should have a method createLines", function() {
-          return expect(this.boundry).to.respondTo('createLines');
+      it("should have a method getValueAtPoint", function() {
+        return expect(this.boundry).to.respondTo("getValueAtPoint");
+      });
+      it("should have a method render", function() {
+        return expect(this.boundry).to.respondTo("render");
+      });
+      describe("render", function() {
+        return it("should not throw an error", function() {
+          var test,
+            _this = this;
+
+          test = function() {
+            return _this.boundry.render();
+          };
+          return expect(test).to.not["throw"]();
         });
       });
-      return describe("getValueAtPoint", function() {
-        return it("should have a methad getValueAtPoint", function() {
-          return expect(this.boundry).to.respondTo('getValueAtPoint');
+      describe("createHorzLines", function() {
+        return it("should not throw an error", function() {
+          var test,
+            _this = this;
+
+          test = function() {
+            return _this.boundry.createHorzLines();
+          };
+          return expect(test).to.not["throw"]();
+        });
+      });
+      return describe("createVertLines", function() {
+        return it("should not throw an error", function() {
+          var test,
+            _this = this;
+
+          test = function() {
+            return _this.boundry.createVertGrid();
+          };
+          return expect(test).to.not["throw"]();
         });
       });
     });

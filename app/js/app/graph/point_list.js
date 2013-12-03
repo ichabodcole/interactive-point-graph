@@ -2,16 +2,17 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'createjs', 'graph/keyboard'], function(_, createjs, GraphKeyBoard) {
+  define(['underscore', 'createjs', 'graph/keyboard', 'graph/point'], function(_, createjs, GraphKeyBoard, GraphPoint) {
     var GraphPointList;
 
     GraphPointList = (function(_super) {
       __extends(GraphPointList, _super);
 
-      function GraphPointList(GraphPointClass) {
+      function GraphPointList(min, max) {
         GraphPointList.__super__.constructor.apply(this, arguments);
+        this.min = min;
+        this.max = max;
         this.points = [];
-        this.GraphPoint = GraphPointClass;
         this.keyboard = new GraphKeyBoard();
       }
 
@@ -21,7 +22,7 @@
         if (options == null) {
           options = {};
         }
-        point = new this.GraphPoint(x, y, options);
+        point = new GraphPoint(x, y, options);
         this.setEventListeners(point);
         return this.points.push(point);
       };
@@ -48,9 +49,26 @@
         return point.addEventListener('dblclick', _self.removePoint.bind(_self));
       };
 
+      GraphPointList.prototype.checkPointBounds = function(point) {
+        if (point.y > this.max.y) {
+          point.y = this.max.y;
+        } else if (point.y < this.min.y) {
+          point.y = this.min.y;
+        }
+        if (point.x > this.max.x) {
+          point.x = this.max.x;
+        } else if (point.x < this.min.x) {
+          point.x = this.min.y;
+        }
+        return point;
+      };
+
       GraphPointList.prototype.movePoint = function(e) {
-        e.target.x = e.stageX;
-        e.target.y = e.stageY;
+        var pnt;
+
+        pnt = this.checkPointBounds(e.target.parent.globalToLocal(e.stageX, e.stageY));
+        e.target.x = pnt.x;
+        e.target.y = pnt.y;
         return this.dispatchEvent('pointMove', e.target);
       };
 

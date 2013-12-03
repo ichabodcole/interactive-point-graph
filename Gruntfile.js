@@ -65,7 +65,7 @@ module.exports = function(grunt){
         tasks: ['sass']
       },
       test: {
-        files: ['test/**/*.js', 'test/*.html'],
+        files: ['test/**/*.js', 'test/*.html', 'app/**/*.js'],
         tasks: ['mocha', 'livereload']
       }
     },

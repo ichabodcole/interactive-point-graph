@@ -32,9 +32,9 @@ requirejs(['chai', 'mocha', 'bridge', 'utils/bind_fill'], function(chai){
   expect = chai.expect;
   mocha.setup('bdd');
 
-  requirejs(['spec/graph/spec_time_point',
-             'spec/graph/spec_point_list',
-             'spec/graph/spec_point',
+  requirejs([//'spec/graph/spec_time_point',
+             //'spec/graph/spec_point_list',
+             //'spec/graph/spec_point',
              'spec/graph/spec_boundry'], function(){
     mocha.run();
   });

@@ -1,14 +1,15 @@
-define ['underscore', 'createjs', 'graph/keyboard'], (_, createjs, GraphKeyBoard)->
+define ['underscore', 'createjs', 'graph/keyboard', 'graph/point'], (_, createjs, GraphKeyBoard, GraphPoint)->
 
   class GraphPointList extends createjs.Container
-    constructor: (GraphPointClass)->
+    constructor: (min, max)->
       super
+      @min = min
+      @max = max
       @points = []
-      @GraphPoint = GraphPointClass
       @keyboard = new GraphKeyBoard()
 
     addPoint: (x, y, options={})->
-      point = new @GraphPoint(x, y, options)
+      point = new GraphPoint(x, y, options)
       @setEventListeners(point)
       @points.push(point)
 
@@ -23,11 +24,24 @@ define ['underscore', 'createjs', 'graph/keyboard'], (_, createjs, GraphKeyBoard
 
       point.addEventListener 'click', _self.togglePointType.bind(_self)
       point.addEventListener 'dblclick', _self.removePoint.bind(_self)
-      # @dispatchEvent('shiftClickPoint')
+
+    checkPointBounds: (point)->
+      if point.y > @max.y
+        point.y = @max.y
+      else if point.y < @min.y
+        point.y = @min.y
+
+      if point.x > @max.x
+        point.x = @max.x
+      else if point.x < @min.x
+        point.x = @min.y
+
+      return point
 
     movePoint: (e)->
-      e.target.x = e.stageX
-      e.target.y = e.stageY
+      pnt = @checkPointBounds(e.target.parent.globalToLocal(e.stageX, e.stageY))
+      e.target.x = pnt.x
+      e.target.y = pnt.y
       @dispatchEvent('pointMove', e.target)
 
     togglePointType: (e)->

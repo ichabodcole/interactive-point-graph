@@ -8,69 +8,121 @@
     GraphBoundry = (function(_super) {
       __extends(GraphBoundry, _super);
 
-      function GraphBoundry(width, height, line_options) {
-        var hitArea;
-
-        this.width = width;
-        this.height = height;
-        this.line_options = line_options != null ? line_options : {};
+      function GraphBoundry(options) {
         GraphBoundry.__super__.constructor.apply(this, arguments);
-        this.horz_spacing = 100;
-        this.vert_spacing = 30;
-        this.horz_lines = this.width / this.horz_spacing;
-        this.vert_lines = this.height / this.vert_spacing;
-        hitArea = new createjs.Shape();
-        hitArea.graphics.beginFill('red').drawRect(0, 0, this.width, this.height);
-        this.hitArea = hitArea;
-        return this;
+        this.config = {
+          width: 700,
+          height: 250,
+          durationScale: 10,
+          durationInterval: 60,
+          elevationScale: 18,
+          elevationInterval: 3,
+          borderLineWidth: 1,
+          borderColor: '#ccc',
+          borderCornerRadius: 0,
+          gridLineWidth: 1,
+          gridColor: '#ccc',
+          fontColor: '#ccc',
+          fontFamily: 'Arial',
+          fontStyle: 'normal',
+          fontSize: 12,
+          labelPosition: 'outside',
+          labelMargin: 10,
+          gridMargin: 30
+        };
+        this.grid = new createjs.Shape();
+        this.grid.x = this.config.gridMargin;
+        this.addChild(this.grid);
       }
 
-      GraphBoundry.prototype.createLines = function(size, num_lines, line_spacing, direction, line_options) {
-        var end_x, end_y, increment, line, line_color, line_offset, line_thickness, start_x, start_y, _i, _ref, _ref1, _results;
+      GraphBoundry.prototype.createBorder = function() {
+        this.grid.graphics.setStrokeStyle(1);
+        return this.grid.graphics.beginStroke('#ccc').drawRect(0, 0, this.config.width, this.config.height);
+      };
 
-        if (line_options == null) {
-          line_options = {};
-        }
-        line_thickness = (_ref = line_options.line_thickness) != null ? _ref : 1;
-        line_color = (_ref1 = line_options.line_color) != null ? _ref1 : '#000';
-        line_offset = line_thickness % 2 === 1 ? 0.5 : 0;
-        this.graphics.setStrokeStyle(line_thickness);
-        this.graphics.beginStroke(line_color);
+      GraphBoundry.prototype.getIntervalSteps = function(scale, interval) {
+        var steps;
+
+        return steps = scale / interval;
+      };
+
+      GraphBoundry.prototype.getStepIncrement = function(size, steps) {
+        var stepIncrement;
+
+        return stepIncrement = size / steps;
+      };
+
+      GraphBoundry.prototype.getDurationSeconds = function() {
+        return this.config.durationScale * 60;
+      };
+
+      GraphBoundry.prototype.createIntervalLabel = function(text) {
+        var color, font, label;
+
+        font = this.config.fontSize + "px " + this.config.fontFamily;
+        color = this.config.fontColor;
+        return label = new createjs.Text(text, font, color);
+      };
+
+      GraphBoundry.prototype.createVertGrid = function() {
+        var label, scale, scaleInterval, step, stepIncrement, steps, x, y, _i, _ref, _results;
+
+        scale = this.getDurationSeconds();
+        scaleInterval = this.config.durationInterval;
+        steps = this.getIntervalSteps(scale, scaleInterval);
+        stepIncrement = this.getStepIncrement(this.config.width, steps);
+        this.grid.graphics.beginStroke('#ccc');
         _results = [];
-        for (line = _i = 0; 0 <= num_lines ? _i <= num_lines : _i >= num_lines; line = 0 <= num_lines ? ++_i : --_i) {
-          if (line !== 0 && line !== num_lines) {
-            increment = line * line_spacing + line_offset;
-            if (direction === 'horz') {
-              start_x = end_x = increment;
-              start_y = 0;
-              end_y = size;
-            } else if (direction === 'vert') {
-              start_x = 0;
-              start_y = end_y = increment;
-              end_x = size;
-            }
-            this.graphics.moveTo(start_x, start_y);
-            _results.push(this.graphics.lineTo(end_x, end_y));
-          } else {
-            _results.push(void 0);
-          }
+        for (step = _i = 1, _ref = steps - 1; 1 <= _ref ? _i <= _ref : _i >= _ref; step = 1 <= _ref ? ++_i : --_i) {
+          x = stepIncrement * step;
+          y = this.config.height;
+          this.grid.graphics.moveTo(x, 0);
+          this.grid.graphics.lineTo(x, y);
+          label = this.createIntervalLabel(step);
+          label.x = x - (label.getMeasuredWidth() / 2) + this.config.gridMargin;
+          label.y = y + this.config.labelMargin;
+          _results.push(this.addChild(label));
         }
         return _results;
       };
 
-      GraphBoundry.prototype.getValueAtPoint = function(x, y) {
-        return [x, y];
+      GraphBoundry.prototype.createHorzLines = function() {
+        var label, scale, scaleInterval, step, stepIncrement, steps, x, y, _i, _ref, _results;
+
+        scale = this.config.elevationScale;
+        scaleInterval = this.config.elevationInterval;
+        steps = this.getIntervalSteps(scale, scaleInterval);
+        stepIncrement = this.getStepIncrement(this.config.height, steps);
+        this.grid.graphics.beginStroke('#ccc');
+        _results = [];
+        for (step = _i = 1, _ref = steps - 1; 1 <= _ref ? _i <= _ref : _i >= _ref; step = 1 <= _ref ? ++_i : --_i) {
+          x = this.config.width;
+          y = stepIncrement * step;
+          this.grid.graphics.moveTo(0, y);
+          this.grid.graphics.lineTo(x, y);
+          label = this.createIntervalLabel(steps - step);
+          label.x = this.config.labelMargin;
+          label.y = y - (label.getMeasuredHeight() / 2);
+          _results.push(this.addChild(label));
+        }
+        return _results;
       };
 
+      GraphBoundry.prototype.createGrid = function() {
+        this.createHorzLines();
+        return this.createVertGrid();
+      };
+
+      GraphBoundry.prototype.getValueAtPoint = function(p) {};
+
       GraphBoundry.prototype.render = function() {
-        this.graphics.clear();
-        this.createLines(this.height, this.horz_lines, this.horz_spacing, 'horz', this.line_options);
-        return this.createLines(this.width, this.vert_lines, this.vert_spacing, 'vert', this.line_options);
+        this.createGrid();
+        return this.createBorder();
       };
 
       return GraphBoundry;
 
-    })(createjs.Shape);
+    })(createjs.Container);
     return GraphBoundry;
   });
 

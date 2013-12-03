@@ -1,37 +1,82 @@
 define ['createjs',
         'graph/render_queue',
-        'graph/boundry',
-        'graph/point',
+        'graph/grid',
         'graph/point_list',
         'graph/point_line',
         'graph/time_point'
-        ], (createjs, RenderQueue, Boundry, GraphPoint, PointList, PointLine, TimePoint)->
+        ], (createjs, RenderQueue, Grid, PointList, PointLine, TimePoint)->
 
   class Graph extends createjs.Container
-    constructor: (width, height)->
+    constructor: (options={})->
       super
+      defaults = {
+        width: 600,
+        height: 300,
+        scaleXStart: @_minutesToSeconds(0),
+        scaleXEnd: @_minutesToSeconds(60),
+        # scaleXInterval: @_minutesToSeconds(5),
+        scaleXStepCount: 10,
+        scaleXZoom: 1,
+        scaleYStart: 0,
+        scaleYEnd: 16,
+        # scaleYInterval: 3,
+        scaleYStepCount: 8,
+        scaleYZoom: 1
+        borderLineWidth: 1,
+        borderColor: '#ccc',
+        borderCornerRadius: 0,
+        gridLineWidth: 1,
+        gridColor: '#ccc',
+        gridPaddingLeft: 45,
+        gridPaddingBottom: 20
+        fontColor: '#ccc',
+        fontFamily: 'Arial',
+        fontStyle: 'normal',
+        fontSize: 12
+      }
+
+      @config = _.defaults(options, defaults)
+
+      @grid           = new Grid(@config)
+      @pointContainer = @_setupPointContainer(@grid)
+
+      @pointList      = @_setupPointList()
+      @pointLine      = new PointLine(@pointList)
+      @timePoint      = new TimePoint(@pointList)
+
+      @addChild(@grid)
+      @addChild(@pointContainer)
+      @pointContainer.addChild(@pointLine)
+      @pointContainer.addChild(@pointList)
+      @pointContainer.addChild(@timePoint)
+
+      @_setEventListeners()
+      # Create renderQueue and add initial items to be rendered on instantiation
       @renderQueue = new RenderQueue()
-
-      boundry_options = {line_color: "#ddd"}
-      @boundry   = new Boundry(width, height, boundry_options)
-      @pointList = new PointList(GraphPoint)
-      @setInitialPoints(width, height)
-
-      @pointLine = new PointLine(@pointList)
-      @timePoint = new TimePoint(@pointList)
-
-      @addChild(@boundry)
-      @addChild(@pointLine)
-      @addChild(@pointList)
-      @addChild(@timePoint)
-
-      @setEventListeners()
-      # Add initial items to be rendered on instantiation
-      @renderQueue.add(@boundry, @pointList, @pointLine)
+      @renderQueue.add(@grid, @pointList, @pointLine)
       return @
 
-    setEventListeners: ->
-      @boundry.addEventListener 'click', @onBoundryClick.bind(@)
+    _minutesToSeconds: (minutes)->
+      seconds = minutes * 60
+
+    _labelYFormat: (seconds)->
+
+    _setupPointContainer: (grid)->
+      pointContainer = new createjs.Container()
+      gridPoint = grid.getGridRegPoint()
+      pointContainer.x = gridPoint.x
+      pointContainer.y = gridPoint.y
+      return pointContainer
+
+    _setupPointList: ->
+      min = {x: 0, y: 0}
+      max = {x: @config.width , y: @config.height}
+      pointList = new PointList(min, max)
+      @_setInitialPoints(pointList, @config.width, @config.height)
+      return pointList
+
+    _setEventListeners: ->
+      @grid.addEventListener 'click', @onGridClick.bind(@)
       @pointList.addEventListener 'pointMove', @onPointUpdate.bind(@)
       @pointList.addEventListener 'pointRemove', @onPointUpdate.bind(@)
       @pointList.addEventListener 'pointTypeChange', @onPointUpdate.bind(@)
@@ -45,19 +90,20 @@ define ['createjs',
       @renderQueue.add(@pointList, @pointLine)
       @dispatchEvent('graphUpdate')
 
-    onBoundryClick: (e)->
-      @pointList.addPoint(e.stageX, e.stageY)
+    onGridClick: (e)->
+      pnt = e.target.grid.globalToLocal(e.stageX, e.stageY)
+      @pointList.addPoint(pnt.x, pnt.y)
       @renderQueue.add(@pointList, @pointLine)
       @dispatchEvent('graphUpdate')
 
-    setInitialPoints: (width, height)->
+    _setInitialPoints: (pointList, width, height)->
       base_line = height / 2
       point_options  = {visible:false, editable:false}
-      @pointList.addPoint(0, base_line, point_options)
-      @pointList.addPoint(width, base_line, point_options)
+      pointList.addPoint(0, base_line, point_options)
+      pointList.addPoint(width, base_line, point_options)
 
       # For Testing
-      @pointList.addPoints [
+      pointList.addPoints [
                             {x:100, y:75},
                             {x:200, y:180, options:{type:'curve'}},
                             {x:350, y:120, options:{type:'curve'}},
