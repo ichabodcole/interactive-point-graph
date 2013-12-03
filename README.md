@@ -1,1 +1,1 @@
-### Experiments with graphing and sound (mysterious sounding, I know).
+### Experiments in graphing.
